@@ -1,0 +1,107 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="spinnerStyle">@style/AppSpinner</item>
+        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/spinnerDropDownItemStyle</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="background">@drawable/button_text_color</item>
+    </style>
+    <style name="spinnerItemStyle">
+        <item name="android:textAppearance">@style/appFont</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle">
+        <item name="android:textAppearance">@style/appFont.Medium</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <!-- Radio Button -->
+    <style name="RadioButton">
+        <item name="android:textColor">@drawable/button_text_color</item>
+        <item name="android:minHeight">38dp</item>
+        <item name="android:minWidth">80dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingRight">9dp</item>
+    </style>
+
+    <!-- Radio Button -->
+    <style name="CheckBox">
+        <item name="android:textColor">@drawable/checkbox_color</item>
+        <item name="android:minHeight">38dp</item>
+        <item name="android:minWidth">80dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingRight">9dp</item>
+    </style>
+    <!-- Font settings -->
+    <style name="hannaEleven" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">@dimen/textLargeSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/hanna_eleven</item>
+    </style>
+
+    <style name="hannaAir" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">@dimen/textLargeSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/hanna_air</item>
+    </style>
+
+    <style name="haeRang" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">@dimen/textHugeSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/haerang</item>
+    </style>
+
+    <style name="appFont" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">@dimen/textLargeSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/nanum_square</item>
+    </style>
+
+    <style name="appFont.XSmall">
+        <item name="android:textSize">@dimen/textXSmallSize</item>
+    </style>
+
+    <style name="appFont.Small">
+        <item name="android:textSize">@dimen/textSmallSize</item>
+    </style>
+
+    <style name="appFont.Medium">
+        <item name="android:textSize">@dimen/textMediumSize</item>
+    </style>
+
+    <style name="appFont.Title">
+        <item name="android:textSize">@dimen/textTitleSize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="appFont.Huge">
+        <item name="android:textSize">@dimen/textHugeSize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+</resources>

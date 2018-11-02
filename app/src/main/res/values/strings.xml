@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">edge</string>
+    <string name="quiz_start">인물 퀴즈 시작!</string>
+    <string name="quiz_start_after_second">초뒤 인물 퀴즈\n시작합니다!</string>
+    <string name="quiz">인물 퀴즈</string>
+    <string name="next">다음</string>
+    <string name="save">저장</string>
+    <string name="plus">추가</string>
+    <string name="error">정확한 목소리 인식에 실패했습니다.\n다시 시도해주세요ㅜㅜ</string>
+    <string name="retry">정확한 목소리 인식에 실패했습니다.\n다시 시도해주세요</string>
+    <string name="wrong">땡!!</string>
+    <string name="warning">주변에 시끄러우면\n음성 인식 오류가 발생할 수 있습니다.</string>
+    <string name="game_text1">마이크를 누르고 \n인물의 이름을 맞추면 됩니다.</string>
+    <string name="game_text2">속담을 맞추는 게임입니다.</string>
+    <string name="push_again_back_pressed">뒤로가기를 한번 더 눌러주시면 종료됩니다.</string>
+    <string name="admob_id">ca-app-pub-7552170233373075/1762229613</string>
+    <string name="admob">ca-app-pub-7552170233373075~6216479948</string>
+    <string name="default_amount">100g</string>
+    <string name="allow_grant">권한을 허가해주세요.</string>
+    <string name="measure">단위</string>
+    <string name="do_you_want_to_remove">삭제하시겠습니까?</string>
+    <string name="not_ready_yet">준비중입니다.</string>
+    <string name="complete">완료</string>
+    <string name="remove">삭제</string>
+    <string name="cancel">취소</string>
+    <string name="dl">통계</string>
+    <string name="settings">설정</string>
+    <string name="search">검색</string>
+    <string-array name="select_main_diet">
+        <item>수정</item>
+        <item>삭제</item>
+    </string-array>
+</resources>

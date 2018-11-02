@@ -1,0 +1,14 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="radio_button_conner_radius">5dp</dimen>
+    <dimen name="radio_button_stroke_border">1dp</dimen>
+
+    <dimen name="textXSmallSize">12.5dp</dimen>
+    <dimen name="textSmallSize">14dp</dimen>
+    <dimen name="textMediumSize">16.3dp</dimen>
+    <dimen name="textMediumLargeSize">19.60dp</dimen>
+    <dimen name="textLargeSize">22dp</dimen>
+    <dimen name="textTitleSubSize">26.06dp</dimen>
+    <dimen name="textTitleSize">30.60dp</dimen>
+    <dimen name="textHugeSize">45.60dp</dimen>
+</resources>
