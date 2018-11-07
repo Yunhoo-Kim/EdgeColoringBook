@@ -105,6 +105,7 @@ fun setScaleFactor(view: ImageView, scale: MutableLiveData<Float>){
 fun setScaleFactor(view: ColoringView, scale: MutableLiveData<Float>){
     view.scaleX = scale.value!!
     view.scaleY = scale.value!!
+    view.brushScale(scale.value!!)
 }
 
 @BindingAdapter("brushType")

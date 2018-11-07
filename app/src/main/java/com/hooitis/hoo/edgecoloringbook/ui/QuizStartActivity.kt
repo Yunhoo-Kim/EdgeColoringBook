@@ -105,6 +105,10 @@ class QuizStartActivity: BaseActivity(){
                 return true
             }
         })
+
+        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer {
+            binding.paintView.brushScale(it!!)
+        })
         initBackPress()
     }
 

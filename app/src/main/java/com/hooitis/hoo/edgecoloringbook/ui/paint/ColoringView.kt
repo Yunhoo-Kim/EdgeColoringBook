@@ -22,12 +22,11 @@ class ColoringView @JvmOverloads constructor(
     private lateinit var bitmap:Bitmap
     private lateinit var brush: Bitmap
     private lateinit var pencil: Bitmap
+    private lateinit var originPencil: Bitmap
     private var mode = 0
     private val mPathList: MutableList<Pair<Float, Float>> = mutableListOf()
     private val mPath: Path = Path()
 
-    private lateinit var mScaleDetector: ScaleGestureDetector
-    private lateinit var mGestureDetector: GestureDetector
     private var mScaleFactor = 1f
 
     val TOUCH_TOLERANCE = 4
@@ -68,39 +67,17 @@ class ColoringView @JvmOverloads constructor(
         canvas!!.drawBitmap(bitmap, 0f,0f, null)
     }
 
-    fun clear(){
+    private fun clear(){
         if(::bitmap.isInitialized)
             bitmap.recycle()
 
-        mGestureDetector = GestureDetector(this.context, object: GestureDetector.SimpleOnGestureListener(){
-            override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-                this@ColoringView.translationX -= distanceX
-                this@ColoringView.translationY -= distanceY
-                return true
-            }
-        })
-        mScaleDetector= ScaleGestureDetector(context, object: ScaleGestureDetector.SimpleOnScaleGestureListener(){
-            override fun onScale(detector: ScaleGestureDetector?): Boolean {
-                mScaleFactor *= detector!!.scaleFactor
-                mScaleFactor = max(1f, min(mScaleFactor, 10f))
-
-
-                this@ColoringView.scaleX = mScaleFactor
-                this@ColoringView.scaleY = mScaleFactor
-
-                invalidate()
-
-                return true
-            }
-        })
 
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         pencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil2),
                 12, 12, true)
         pencil = changeBitmapColor(pencil, context.getColor(R.color.colorPrimary))
         brush = pencil
-//        brush2 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil2),
-//                10, 5, true)
+        originPencil = pencil
 
         canvas = Canvas(bitmap)
         invalidate()
@@ -204,14 +181,6 @@ class ColoringView @JvmOverloads constructor(
 
     private fun changeBitmapColor(sourceBitmap: Bitmap, color: Int): Bitmap {
         val resultBitmap = sourceBitmap.copy(sourceBitmap.config, true)
-
-
-//        val paint = Paint()
-//        val filter = LightingColorFilter(color, color)
-//        paint.colorFilter = filter
-//        paint.alpha = 255
-//        val canvas = Canvas(resultBitmap)
-//        canvas.drawBitmap(resultBitmap, 0f, 0f, paint)
         resultBitmap.setHasAlpha(true)
 
         val red = Color.red(color)
@@ -228,33 +197,22 @@ class ColoringView @JvmOverloads constructor(
         return resultBitmap
     }
 
-    private fun makeEraser(): Bitmap{
-        val erase = Bitmap.createBitmap(12, 12, Bitmap.Config.ARGB_8888)
-
-        val paint = Paint()
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-        paint.alpha = 0xFF
-        val canvas = Canvas(erase)
-        canvas.drawBitmap(erase, 0f, 0f, paint)
-//        for (i in 0 until erase.width){
-//            for(j in 0 until erase.height){
-//                val pixel = erase.getPixel(i, j)
-//                Log.d("BitmapColor", "$pixel")
-//                erase.setPixel(i,j, Color.argb(0, 0, 0, 0))
-//            }
-//        }
-        return erase
-    }
-
     fun changeToErase(){
         mode = 1
-//        if(::brush.isInitialized)
-//            brush.eraseColor(Color.TRANSPARENT)
     }
 
     fun changeToPencil(){
         mode = 0
-//        if(::brush.isInitialized)
-//            brush = pencil
+    }
+
+    fun brushScale(scaleFactor: Float){
+        if(!::pencil.isInitialized)
+            return
+
+        val scaleBrush = max(6f, min((12 * (1 / scaleFactor)), 12f)).toInt()
+
+        pencil = Bitmap.createScaledBitmap(originPencil,
+                scaleBrush, scaleBrush, true)
+        brush = pencil
     }
 }

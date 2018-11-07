@@ -60,6 +60,7 @@
                 android:layout_height="0dp" />
 
             <com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
+                android:id="@+id/paint_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@android:color/transparent"
@@ -69,7 +70,9 @@
                 app:layout_constraintEnd_toEndOf="@+id/result_image"
                 app:layout_constraintTop_toTopOf="@+id/result_image"
                 app:layout_constraintBottom_toBottomOf="@+id/result_image"/>
+
         </android.support.constraint.ConstraintLayout>
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/btn_cont"
             android:layout_width="0dp"
