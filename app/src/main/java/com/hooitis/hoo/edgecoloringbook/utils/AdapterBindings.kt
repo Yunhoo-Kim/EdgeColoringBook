@@ -3,6 +3,8 @@ package com.hooitis.hoo.edgecoloringbook.utils
 import android.animation.ObjectAnimator
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
+import android.media.Image
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.hooitis.hoo.edgecoloringbook.R
+import com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
 import com.hooitis.hoo.edgecoloringbook.utils.extension.getParentActivity
 
 
@@ -88,12 +91,38 @@ fun setCountText(view: TextView, count: MutableLiveData<String>){
 @Suppress("unused")
 fun setBeforeCountText(view: TextView, count: MutableLiveData<String>){
     view.text = count.value
-//    val startSize = view.resources.getDimension(R.dimen.textMediumLargeSize)
-//    val endSize = view.resources.getDimension(R.dimen.textMediumSize)
-//
-//    val animator = ObjectAnimator.ofFloat(view, "textSize", startSize, endSize)
-//    ObjectAnimator.ofFloat()
-//    animator.duration = 1000
-//    animator.start()
 }
 
+@BindingAdapter("scaleFactor")
+@Suppress("unused")
+fun setScaleFactor(view: ImageView, scale: MutableLiveData<Float>){
+    view.scaleX = scale.value!!
+    view.scaleY = scale.value!!
+}
+
+@BindingAdapter("scaleFactor")
+@Suppress("unused")
+fun setScaleFactor(view: ColoringView, scale: MutableLiveData<Float>){
+    view.scaleX = scale.value!!
+    view.scaleY = scale.value!!
+}
+
+@BindingAdapter("brushType")
+@Suppress("unused")
+fun setBrush(view: ColoringView, type: MutableLiveData<Int>){
+    when(type.value){
+        0 -> {
+            view.changeToPencil()
+        }
+        else -> {
+            view.changeToErase()
+        }
+    }
+}
+
+@BindingAdapter("scaleFactor")
+@Suppress("unused")
+fun setScaleFactor(view: ConstraintLayout, scale: MutableLiveData<Float>){
+    view.scaleX = scale.value!!
+    view.scaleY = scale.value!!
+}

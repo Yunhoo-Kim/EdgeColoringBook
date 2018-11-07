@@ -31,19 +31,18 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:customtabs:$android_support_version"
     implementation "com.android.support:appcompat-v7:$android_support_version"
-
-
     implementation "com.android.support:recyclerview-v7:$android_support_version"
     implementation "com.android.support:cardview-v7:$android_support_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // Data binding
     annotationProcessor "com.android.databinding:compiler:3.1.4"
-//    annotationProcessor
+
+    //    annotationProcessor
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -55,25 +54,27 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-
     // Dagger 2
     implementation "com.google.dagger:dagger:$dagger2_version"
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
     implementation "com.google.dagger:dagger-android:$dagger2_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
     implementation "com.google.dagger:dagger-android-support:$dagger2_version"
-    compileOnly "org.glassfish:javax.annotation:3.1.1"
+    compileOnly 'org.glassfish:javax.annotation:3.1.1'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
 
     // Ad
-//    implementation 'com.google.android.gms:play-services-ads:17.0.0'
-//    implementation 'com.google.firebase:firebase-ads:17.0.0'
+
+    //    implementation 'com.google.android.gms:play-services-ads:17.0.0'
+
+    //    implementation 'com.google.firebase:firebase-ads:17.0.0'
 
     // speech animation
-//    implementation 'com.github.zagum:SpeechRecognitionView:1.2.2'
+
+    //    implementation 'com.github.zagum:SpeechRecognitionView:1.2.2'
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.4'
@@ -89,7 +90,9 @@ dependencies {
     implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.0.0'
     implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
 
-
+    // Zoon image view
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+//    implementation 'com.github.chrisbanes.photoview:library:2.1.4'
 
     // Support Design
     implementation "com.android.support:design:$android_support_version"
@@ -98,10 +101,7 @@ dependencies {
     // Room
     implementation "android.arch.persistence.room:runtime:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
-
-
     testImplementation 'junit:junit:4.12'
-
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

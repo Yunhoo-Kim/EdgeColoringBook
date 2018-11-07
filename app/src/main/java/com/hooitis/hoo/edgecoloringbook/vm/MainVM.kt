@@ -22,6 +22,8 @@ class MainVM @Inject constructor(
     private lateinit var quizList: List<Quiz>
 
 
+    val scaleFactor: MutableLiveData<Float> = MutableLiveData()
+    val brushType: MutableLiveData<Int> = MutableLiveData()
     val wrong: MutableLiveData<Boolean> = MutableLiveData()
     val quizIndex: MutableLiveData<Int> = MutableLiveData()
     val countDown: MutableLiveData<String> = MutableLiveData()
@@ -35,6 +37,8 @@ class MainVM @Inject constructor(
         index = 0
         quizIndex.value = index
         countDown.value = COUNTDOWN
+        scaleFactor.value = 1f
+        brushType.value = 0
     }
 
     fun loadQuizData(){

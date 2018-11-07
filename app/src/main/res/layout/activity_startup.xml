@@ -3,49 +3,73 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<data>-->
-        <!--<variable-->
-            <!--name="viewModel"-->
-            <!--type="com.hooitis.hoo.hooitis.vm.MainVM"/>-->
-    <!--</data>-->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hooitis.hoo.edgecoloringbook.vm.MainVM"/>
+    </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryGray"
         android:id="@+id/container_startup">
 
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:textAlignment="center"
-            android:layout_marginTop="90dp"
-            android:textSize="90dp"
             android:textColor="@color/colorPrimary"
-            style="@style/haeRang"
+            android:textAppearance="@style/appFont"
+            android:text="@string/quiz"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/draw_cont"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/change_brush"/>
+
+        <Button
+            android:id="@+id/change_brush"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/change"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintStart_toEndOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <ImageView
-            android:id="@+id/result_image"
-            app:layout_constraintTop_toTopOf="parent"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/draw_cont"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintBottom_toTopOf="@+id/btn_cont"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
+            android:background="@color/white"
+            scaleFactor="@{viewModel.scaleFactor}">
 
-        <com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btn_cont" />
+            <ImageView
+                android:id="@+id/result_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
 
+            <com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:splitMotionEvents="false"
+                brushType="@{viewModel.brushType}"
+                app:layout_constraintStart_toStartOf="@+id/result_image"
+                app:layout_constraintEnd_toEndOf="@+id/result_image"
+                app:layout_constraintTop_toTopOf="@+id/result_image"
+                app:layout_constraintBottom_toBottomOf="@+id/result_image"/>
+        </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/btn_cont"
             android:layout_width="0dp"
@@ -70,24 +94,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
-
-
         </android.support.constraint.ConstraintLayout>
-
-        <!--<TextView-->
-            <!--android:id="@+id/warning_text"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textAppearance="@style/hannaAir"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:text="@string/warning"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent" />-->
-
     </android.support.constraint.ConstraintLayout>
 </layout>
 

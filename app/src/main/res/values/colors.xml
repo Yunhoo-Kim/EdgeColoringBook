@@ -2,10 +2,9 @@
 <resources>
     <color name="radio_button_selected_color">#fffc6300</color>
     <color name="radio_button_unselected_color">#ffffff</color>
-    <!--<color name="colorPrimaryDark">#fc6300</color>-->
-    <color name="colorPrimary">#df530c</color>
-    <color name="colorPrimaryLight">#fa8b00</color>
-    <color name="colorPrimaryDark">#770500</color>
+    <color name="colorPrimary">#D1999F</color>
+    <color name="colorPrimaryLight">#EDD5D9</color>
+    <color name="colorPrimaryDark">#EDC6C5</color>
     <color name="colorPrimaryDarker">#4b0000</color>
     <color name="colorPrimaryGray">#E0E0E0</color>
     <color name="colorPrimaryDarkGray">#585757</color>
@@ -15,4 +14,5 @@
     <color name="colorAccent">#fa8b00</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="palette">#FABDAC</color>
 </resources>
