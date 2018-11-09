@@ -108,6 +108,12 @@ fun setScaleFactor(view: ColoringView, scale: MutableLiveData<Float>){
     view.brushScale(scale.value!!)
 }
 
+@BindingAdapter("drawingMode")
+@Suppress("unused")
+fun setDrawingMode(view: ColoringView, drawingMode: MutableLiveData<Int>){
+    view.setDrawingMode(drawingMode.value!!)
+}
+
 @BindingAdapter("brushType")
 @Suppress("unused")
 fun setBrush(view: ColoringView, type: MutableLiveData<Int>){

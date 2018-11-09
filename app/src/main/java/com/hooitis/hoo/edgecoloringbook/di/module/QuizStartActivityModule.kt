@@ -1,9 +1,7 @@
 package com.hooitis.hoo.edgecoloringbook.di.module
 
 import com.hooitis.hoo.edgecoloringbook.di.ActivityScope
-import com.hooitis.hoo.edgecoloringbook.ui.MainActivity
-import com.hooitis.hoo.edgecoloringbook.ui.QuizStartActivity
-import com.hooitis.hoo.edgecoloringbook.ui.SplashActivity
+import com.hooitis.hoo.edgecoloringbook.ui.StartActivity
 import dagger.Binds
 import dagger.Module
 
@@ -13,5 +11,5 @@ import dagger.Module
 abstract class QuizStartActivityModule {
     @ActivityScope
     @Binds
-    abstract fun provideQuizStartActivity(activity: QuizStartActivity): QuizStartActivity
+    abstract fun provideQuizStartActivity(activity: StartActivity): StartActivity
 }

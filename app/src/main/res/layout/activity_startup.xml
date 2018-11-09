@@ -25,25 +25,48 @@
             android:textAppearance="@style/appFont"
             android:text="@string/quiz"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/draw_cont"
+            app:layout_constraintBottom_toTopOf="@+id/color_select"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/change_brush"/>
+
 
         <Button
             android:id="@+id/change_brush"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="@string/change"
+            android:text="@string/eraser"
             app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintStart_toEndOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <Button
+            android:id="@+id/change_drawing_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/change_mode"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintEnd_toStartOf="@+id/change_brush"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/color_select"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:clipToPadding="false"
+            adapter="@{viewModel.colorListAdapter}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_brush"
+            app:layout_constraintBottom_toTopOf="@+id/draw_cont">
+        </android.support.v7.widget.RecyclerView>
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/draw_cont"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/color_select"
             app:layout_constraintBottom_toTopOf="@+id/btn_cont"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,6 +89,7 @@
                 android:background="@android:color/transparent"
                 android:splitMotionEvents="false"
                 brushType="@{viewModel.brushType}"
+                drawingMode="@{viewModel.drawingMode}"
                 app:layout_constraintStart_toStartOf="@+id/result_image"
                 app:layout_constraintEnd_toEndOf="@+id/result_image"
                 app:layout_constraintTop_toTopOf="@+id/result_image"

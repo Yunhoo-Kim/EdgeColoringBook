@@ -14,7 +14,7 @@ import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 
 
 @Suppress("unused")
-class ColoringView @JvmOverloads constructor(
+class ReviseDrawingView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
@@ -24,8 +24,9 @@ class ColoringView @JvmOverloads constructor(
     private lateinit var pencil: Bitmap
     private lateinit var originPencil: Bitmap
     private var mode = 0
-    private var drawingMode = 0
+    private var drawingMode = DRAWING_MODE
     private val mPathList: MutableList<Pair<Float, Float>> = mutableListOf()
+    private val mPath: Path = Path()
     private var color: Int = 0
 
     private var mScaleFactor = 1f
@@ -40,6 +41,13 @@ class ColoringView @JvmOverloads constructor(
         strokeWidth = 10f
         isAntiAlias = true
     }
+    private var mPaint: Paint = Paint().apply {
+        alpha = 0
+        strokeJoin = Paint.Join.ROUND
+        strokeCap = Paint.Cap.ROUND
+        strokeWidth = 10f
+        isAntiAlias = true
+    }
 
     var density: Float = 0.0f
     private var mX: Float = 0.0f
@@ -48,6 +56,14 @@ class ColoringView @JvmOverloads constructor(
 
     private lateinit var canvas: Canvas
 
+//    fun blurFilter(){
+//        paint.maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
+//    }
+//
+//    private fun embossFilter(){
+//        paint.colorFilter = ColorMatrixColorFilter(
+//                ColorMatrix(floatArrayOf(0f, 0f, 0f, 0f, 300f, 0f, 1f, 0f, 0f, 300f, 0f, 0f, 1f, 0f, 300f, 0f, 0f, 0f, 1f, 0f)))
+//    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -79,7 +95,8 @@ class ColoringView @JvmOverloads constructor(
     }
 
     private fun touchStart(x: Float, y: Float){
-        mPathList.clear()
+        mPath.reset()
+        mPath.moveTo(x, y)
         mX = x
         mY = y
     }
@@ -89,74 +106,32 @@ class ColoringView @JvmOverloads constructor(
         val dy = abs(y - mY)
 
         if(dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE){
-            drawLine(Point(mX.toInt(), mY.toInt()), Point(x.toInt(), y.toInt()))
+            mPath.quadTo(mX,mY, (x + mX) / 2, (y + mY)/ 2)
             mX = x
             mY = y
         }
-        drawBitmap()
+        drawPaint()
     }
 
-    private fun drawLine(p1: Point, p2: Point){
-        val dx = abs(p1.x - p2.x)
-        val dy = abs(p1.y - p2.y)
-        val sx = if(p1.x < p2.x) 1 else -1
-        val sy = if(p1.y < p2.y) 1 else -1
-        var xx = p1.x
-        var yy = p1.y
-
-        var e1 = (if(dx > dy) dx else -dy) / 2
-        var e2: Int
-        while(true){
-            mPathList.add(Pair(xx.toFloat(), yy.toFloat()))
-            if(xx == p2.x && yy == p2.y) break
-            e2 = e1
-            if(e2 > -dx){e1 -= dy; xx += sx}
-            if(e2 < dy){e1 += dx; yy += sy}
-        }
-    }
-
-    private fun drawBitmap(){
-
-        if(mPathList.size < 10) {
-            return
-        }
-
-        var paint: Paint? = null
-
-        if(mode==1){
-            paint = eraser
-        }
-
-        for(i in mPathList){
-            canvas.drawBitmap(brush, i.first, i.second, paint)
-        }
-
-        mPathList.clear()
+    private fun drawPaint(){
+        canvas.drawPath(mPath, mPaint)
+        mPath.reset()
     }
 
     private fun touchUp(){
-        drawBitmap()
+        mPath.lineTo(mX, mY)
+        drawPaint()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if(drawingMode != DRAWING_MODE)
-           return false
+            return false
 
         val action = event!!.action
-
-//        val pointerCount = event.pointerCount
-//        if(pointerCount > 1){
-//            return false
-//        }
-//
-//        if(multiTouching)
-//            action = MotionEvent.ACTION_DOWN
-
         when (action) {
             MotionEvent.ACTION_DOWN -> {
                 touchStart(event.x, event.y)
                 invalidate()
-//                multiTouching = false
             }
             MotionEvent.ACTION_MOVE -> {
                 touchMove(event.x, event.y)
@@ -168,10 +143,6 @@ class ColoringView @JvmOverloads constructor(
             }
             else -> { }
         }
-
-//        if(multiTouching)
-//            mPathList.clear()
-
         return true
     }
 

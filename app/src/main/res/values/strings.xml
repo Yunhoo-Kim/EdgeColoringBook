@@ -7,6 +7,8 @@
     <string name="save">저장</string>
     <string name="plus">추가</string>
     <string name="change">변경</string>
+    <string name="eraser">지우개</string>
+    <string name="change_mode">모드 변경</string>
     <string name="error">정확한 목소리 인식에 실패했습니다.\n다시 시도해주세요ㅜㅜ</string>
     <string name="retry">정확한 목소리 인식에 실패했습니다.\n다시 시도해주세요</string>
     <string name="wrong">땡!!</string>

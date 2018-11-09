@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<array name="pencils">
+    <item>#17B06D</item>
+    <item>#158078</item>
+    <item>#3BB08F</item>
+    <item>#1CAC78</item>
+    <item>#45CEA2</item>
+    <item>#6DAE81</item>
+    <item>#1CA9C9</item>
+    <item>#199EBD</item>
+    <item>#1FCECB</item>
+    <item>#1DACD6</item>
+    <item>#2B6CC4</item>
+    <item>#1974D2</item>
+    <item>#1A4876</item>
+    <item>#979AAA</item>
+    <item>#5D76CB</item>
+    <item>#7366BD</item>
+    <item>#7851A9</item>
+    <item>#C364C5</item>
+    <item>#8F509D</item>
+    <item>#8E4584</item>
+    <item>#FC74FD</item>
+    <item>#F664AF</item>
+    <item>#C0448F</item>
+    <item>#FFBCD9</item>
+    <item>#FFAACC</item>
+    <item>#FF9BAA</item>
+    <item>#CA3767</item>
+    <item>#CB4154</item>
+    <item>#EDEDED</item>
+    <item>#FFFF99</item>
+    <item>#F0E891</item>
+    <item>#FDFC74</item>
+    <item>#FCE883</item>
+    <item>#FFCF48</item>
+    <item>#FFB653</item>
+    <item>#FFA343</item>
+    <item>#FFA474</item>
+    <item>#FFA089</item>
+    <item>#FF6E4A</item>
+    <item>#FF7538</item>
+    <item>#8A795D</item>
+    <item>#9F8170</item>
+    <item>#A5694F</item>
+    <item>#B5674D</item>
+    <item>#232323</item>
+</array>
+</resources>

@@ -27,7 +27,7 @@ xmlns:tools="http://schemas.android.com/tools"
         <activity android:name=".ui.MainActivity">
         </activity>
 
-        <activity android:name=".ui.QuizStartActivity">
+        <activity android:name=".ui.StartActivity">
         </activity>
 
         <activity android:name=".ui.BeforeQuizActivity">

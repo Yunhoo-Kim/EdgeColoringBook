@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hooitis.hoo.edgecoloringbook.vm.ColorItemVM"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/color_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="@{viewModel.color}"
+            android:background="@drawable/circle_background" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

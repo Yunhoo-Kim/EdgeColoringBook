@@ -13,6 +13,10 @@
     <color name="colorPrimaryWhite">#F2F3EE</color>
     <color name="colorAccent">#fa8b00</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
     <color name="palette">#FABDAC</color>
+    <color name="red">#EE204D</color>
+    <color name="purple">#8F509D</color>
+    <color name="blue">#286CC4</color>
+    <color name="green">#1CAC78</color>
+    <color name="black">#232323</color>
 </resources>

@@ -3,14 +3,13 @@ package com.hooitis.hoo.edgecoloringbook.ui
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import com.hooitis.hoo.edgecoloringbook.R
@@ -18,7 +17,6 @@ import com.hooitis.hoo.edgecoloringbook.base.BaseActivity
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivityStartupBinding
 import com.hooitis.hoo.edgecoloringbook.di.ViewModelFactory
 import com.hooitis.hoo.edgecoloringbook.utils.UiUtils
-import com.hooitis.hoo.edgecoloringbook.utils.Utils
 import com.hooitis.hoo.edgecoloringbook.vm.MainVM
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,9 +28,10 @@ import kotlin.math.max
 import kotlin.math.min
 import android.util.Log
 import android.view.GestureDetector
+import com.hooitis.hoo.edgecoloringbook.utils.EdgeDetection
 
 
-class QuizStartActivity: BaseActivity(){
+class DrawingActivity: BaseActivity(){
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -106,9 +105,21 @@ class QuizStartActivity: BaseActivity(){
             }
         })
 
-        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer {
-            binding.paintView.brushScale(it!!)
+        val colorArray = resources.getIntArray(R.array.pencils)
+
+        viewModel.brushColor.observe(this, android.arch.lifecycle.Observer { binding.paintView.changeBitmapColor(it!!) })
+        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer { binding.paintView.brushScale(it!!) })
+        viewModel.processingImage.observe(this, android.arch.lifecycle.Observer {
+            when(it!!){
+                2 -> binding.resultImage.setImageBitmap(mBitmap)
+                else -> { }
+            }
         })
+        binding.colorSelect.apply{
+            layoutManager = LinearLayoutManager(this@DrawingActivity, LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        viewModel.colorListAdapter.updateColorList(colorArray.asList())
         initBackPress()
     }
 
@@ -124,7 +135,8 @@ class QuizStartActivity: BaseActivity(){
             when (requestCode) {
                 CAMERA -> {
                     mBitmap = UiUtils.convertURIBM(contentResolver, Uri.parse(data!!.dataString))
-                    mDelayHandler.postDelayed(mRunnable, DELAY)
+                    Thread(mRunnable).start()
+//                    mDelayHandler.postDelayed(mRunnable, DELAY)
 //                    edgeDetection()
                 }
             }
@@ -188,7 +200,8 @@ class QuizStartActivity: BaseActivity(){
     }
 
     private fun edgeDetection(){
-        mBitmap = Utils.edgeDetection(mBitmap)
-        binding.resultImage.setImageBitmap(mBitmap)
+        val mEdgeDetection = EdgeDetection()
+        mBitmap = mEdgeDetection.edgeDetection(mBitmap)
+        viewModel.processingImage.postValue(2)
     }
 }
