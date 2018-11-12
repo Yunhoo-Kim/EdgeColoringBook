@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">edge</string>
     <string name="quiz_start">인물 퀴즈 시작!</string>
+    <string name="make_coloring_book">나만의 컬러링북 만들기</string>
+    <string name="select_coloring_book">컬러링북 그리기</string>
     <string name="quiz_start_after_second">초뒤 인물 퀴즈\n시작합니다!</string>
     <string name="quiz">인물 퀴즈</string>
     <string name="next">다음</string>

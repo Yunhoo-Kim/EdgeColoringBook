@@ -1,13 +1,7 @@
 package com.hooitis.hoo.edgecoloringbook.di
 
-import com.hooitis.hoo.edgecoloringbook.di.module.BeforeQuizActivityModule
-import com.hooitis.hoo.edgecoloringbook.di.module.MainActivityModule
-import com.hooitis.hoo.edgecoloringbook.di.module.QuizStartActivityModule
-import com.hooitis.hoo.edgecoloringbook.di.module.SplashActivityModule
-import com.hooitis.hoo.edgecoloringbook.ui.BeforeQuizActivity
-import com.hooitis.hoo.edgecoloringbook.ui.MainActivity
-import com.hooitis.hoo.edgecoloringbook.ui.StartActivity
-import com.hooitis.hoo.edgecoloringbook.ui.SplashActivity
+import com.hooitis.hoo.edgecoloringbook.di.module.*
+import com.hooitis.hoo.edgecoloringbook.ui.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,8 +15,11 @@ abstract class ActivityBuilder{
     @ContributesAndroidInjector(modules = [SplashActivityModule::class])
     abstract fun bindSplashActivityModule(): SplashActivity
 
-    @ContributesAndroidInjector(modules = [QuizStartActivityModule::class])
-    abstract fun bindQuizStartActivityModule(): StartActivity
+    @ContributesAndroidInjector(modules = [StartActivityModule::class])
+    abstract fun bindStartActivityModule(): StartActivity
+
+    @ContributesAndroidInjector(modules = [ReviseColoringBookActivityModule::class])
+    abstract fun bindReviseColoringBookModule(): ReviseColoringBookActivity
 
     @ContributesAndroidInjector(modules = [BeforeQuizActivityModule::class])
     abstract fun bindBeforeQuizActivityModule(): BeforeQuizActivity

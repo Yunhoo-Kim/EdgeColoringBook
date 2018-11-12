@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
+import com.hooitis.hoo.edgecoloringbook.ui.paint.ReviseDrawingView
 import com.hooitis.hoo.edgecoloringbook.utils.extension.getParentActivity
 
 
@@ -87,6 +88,7 @@ fun setCountText(view: TextView, count: MutableLiveData<String>){
     animator.duration = 1000
     animator.start()
 }
+
 @BindingAdapter("beforeCountText")
 @Suppress("unused")
 fun setBeforeCountText(view: TextView, count: MutableLiveData<String>){
@@ -108,15 +110,42 @@ fun setScaleFactor(view: ColoringView, scale: MutableLiveData<Float>){
     view.brushScale(scale.value!!)
 }
 
+@BindingAdapter("scaleFactor")
+@Suppress("unused")
+fun setScaleFactor(view: ReviseDrawingView, scale: MutableLiveData<Float>){
+    view.scaleX = scale.value!!
+    view.scaleY = scale.value!!
+    view.brushScale(scale.value!!)
+}
+
 @BindingAdapter("drawingMode")
 @Suppress("unused")
 fun setDrawingMode(view: ColoringView, drawingMode: MutableLiveData<Int>){
     view.setDrawingMode(drawingMode.value!!)
 }
 
+@BindingAdapter("drawingMode")
+@Suppress("unused")
+fun setDrawingMode(view: ReviseDrawingView, drawingMode: MutableLiveData<Int>){
+    view.setDrawingMode(drawingMode.value!!)
+}
+
 @BindingAdapter("brushType")
 @Suppress("unused")
 fun setBrush(view: ColoringView, type: MutableLiveData<Int>){
+    when(type.value){
+        0 -> {
+            view.changeToPencil()
+        }
+        else -> {
+            view.changeToErase()
+        }
+    }
+}
+
+@BindingAdapter("brushType")
+@Suppress("unused")
+fun setBrush(view: ReviseDrawingView, type: MutableLiveData<Int>){
     when(type.value){
         0 -> {
             view.changeToPencil()

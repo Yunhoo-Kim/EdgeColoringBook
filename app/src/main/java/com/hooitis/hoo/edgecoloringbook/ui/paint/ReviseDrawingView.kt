@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import com.hooitis.hoo.edgecoloringbook.R
 import kotlin.math.abs
 import android.view.*
 import kotlin.math.max
@@ -25,8 +24,8 @@ class ReviseDrawingView @JvmOverloads constructor(
     private lateinit var originPencil: Bitmap
     private var mode = 0
     private var drawingMode = DRAWING_MODE
-    private val mPathList: MutableList<Pair<Float, Float>> = mutableListOf()
     private val mPath: Path = Path()
+    private val mEraserPath: Path = Path()
     private var color: Int = 0
 
     private var mScaleFactor = 1f
@@ -36,16 +35,20 @@ class ReviseDrawingView @JvmOverloads constructor(
     private var eraser: Paint = Paint().apply {
         xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         alpha = 0
+        color = Color.TRANSPARENT
+        style = Paint.Style.STROKE
         strokeJoin = Paint.Join.ROUND
         strokeCap = Paint.Cap.ROUND
-        strokeWidth = 10f
+        strokeWidth = 20f
         isAntiAlias = true
     }
+
     private var mPaint: Paint = Paint().apply {
-        alpha = 0
+        color = Color.BLACK
         strokeJoin = Paint.Join.ROUND
         strokeCap = Paint.Cap.ROUND
-        strokeWidth = 10f
+        style = Paint.Style.STROKE
+        strokeWidth = 7f
         isAntiAlias = true
     }
 
@@ -56,14 +59,6 @@ class ReviseDrawingView @JvmOverloads constructor(
 
     private lateinit var canvas: Canvas
 
-//    fun blurFilter(){
-//        paint.maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
-//    }
-//
-//    private fun embossFilter(){
-//        paint.colorFilter = ColorMatrixColorFilter(
-//                ColorMatrix(floatArrayOf(0f, 0f, 0f, 0f, 300f, 0f, 1f, 0f, 0f, 300f, 0f, 0f, 1f, 0f, 300f, 0f, 0f, 0f, 1f, 0f)))
-//    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -74,29 +69,25 @@ class ReviseDrawingView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas!!.drawBitmap(bitmap, 0f,0f, null)
+        this.canvas.drawPath(mPath, mPaint)
+        this.canvas.drawPath(mEraserPath, eraser)
     }
 
     private fun clear(){
         if(::bitmap.isInitialized)
             bitmap.recycle()
 
-
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil2),
-                15, 15, true)
-
-        pencil = originPencil
-        color = context.getColor(R.color.colorPrimary)
-        changeBitmapColor(color)
-//        brush = pencil
-
         canvas = Canvas(bitmap)
         invalidate()
     }
 
     private fun touchStart(x: Float, y: Float){
-        mPath.reset()
-        mPath.moveTo(x, y)
+        if(mode == 0)
+            mPath.moveTo(x, y)
+        else
+            mEraserPath.moveTo(x, y)
+
         mX = x
         mY = y
     }
@@ -106,21 +97,25 @@ class ReviseDrawingView @JvmOverloads constructor(
         val dy = abs(y - mY)
 
         if(dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE){
-            mPath.quadTo(mX,mY, (x + mX) / 2, (y + mY)/ 2)
+            if(mode == 0)
+                mPath.quadTo(mX,mY, (x + mX) / 2, (y + mY)/ 2)
+            else
+                mEraserPath.quadTo(mX,mY, (x + mX) / 2, (y + mY)/ 2)
+
             mX = x
             mY = y
         }
-        drawPaint()
     }
 
     private fun drawPaint(){
-        canvas.drawPath(mPath, mPaint)
         mPath.reset()
     }
 
     private fun touchUp(){
-        mPath.lineTo(mX, mY)
-        drawPaint()
+        mPath.lineTo(mX,mY)
+        mEraserPath.lineTo(mX,mY)
+        mPath.reset()
+        mEraserPath.reset()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -146,32 +141,17 @@ class ReviseDrawingView @JvmOverloads constructor(
         return true
     }
 
-    fun changeBitmapColor(color: Int): Bitmap {
-        this.color = color
-        val resultBitmap = pencil.copy(pencil.config, true)
-        resultBitmap.setHasAlpha(true)
-
-        val red = Color.red(color)
-        val green = Color.green(color)
-        val blue = Color.blue(color)
-
-        for (i in 0 until resultBitmap.width){
-            for(j in 0 until resultBitmap.height){
-                val pixel = resultBitmap.getPixel(i, j)
-                resultBitmap.setPixel(i,j, Color.argb(Color.alpha(pixel), red, green, blue))
-            }
-        }
-
-        pencil = resultBitmap
-        brush = pencil
-        return resultBitmap
+    fun changeColor(color: Int){
+        mPaint.color = color
     }
 
     fun changeToErase(){
+        eraser.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         mode = 1
     }
 
     fun changeToPencil(){
+
         mode = 0
     }
 
@@ -180,13 +160,7 @@ class ReviseDrawingView @JvmOverloads constructor(
     }
 
     fun brushScale(scaleFactor: Float){
-        if(!::pencil.isInitialized)
-            return
-
-        val scaleBrush = max(5f, min((15 * (1 / scaleFactor)), 15f)).toInt()
-        pencil = Bitmap.createScaledBitmap(originPencil,
-                scaleBrush, scaleBrush, true)
-
-        changeBitmapColor(color)
+//        mPaint.strokeWidth = 10f * scaleFactor
+//        eraser.strokeWidth = 10f * scaleFactor
     }
 }

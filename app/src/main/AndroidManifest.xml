@@ -30,6 +30,12 @@ xmlns:tools="http://schemas.android.com/tools"
         <activity android:name=".ui.StartActivity">
         </activity>
 
+        <activity android:name=".ui.DrawColoringBookActivity">
+        </activity>
+
+        <activity android:name=".ui.ReviseColoringBookActivity">
+        </activity>
+
         <activity android:name=".ui.BeforeQuizActivity">
         </activity>
 
