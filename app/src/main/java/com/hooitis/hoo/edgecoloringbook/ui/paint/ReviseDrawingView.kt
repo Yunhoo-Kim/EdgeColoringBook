@@ -9,6 +9,7 @@ import android.view.*
 import kotlin.math.max
 import kotlin.math.min
 import android.graphics.Bitmap
+import android.widget.ImageView
 import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 
 
@@ -16,7 +17,7 @@ import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 class ReviseDrawingView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+        defStyleAttr: Int = 0) : ImageView(context, attrs, defStyleAttr) {
 
     private lateinit var bitmap:Bitmap
     private lateinit var brush: Bitmap
@@ -27,6 +28,7 @@ class ReviseDrawingView @JvmOverloads constructor(
     private val mPath: Path = Path()
     private val mEraserPath: Path = Path()
     private var color: Int = 0
+    private var initialize = false
 
     private var mScaleFactor = 1f
 
@@ -68,7 +70,8 @@ class ReviseDrawingView @JvmOverloads constructor(
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas!!.drawBitmap(bitmap, 0f,0f, null)
+        canvas!!.drawBitmap(bitmap, 0f, 0f, null)
+
         this.canvas.drawPath(mPath, mPaint)
         this.canvas.drawPath(mEraserPath, eraser)
     }
@@ -81,6 +84,7 @@ class ReviseDrawingView @JvmOverloads constructor(
         canvas = Canvas(bitmap)
         invalidate()
     }
+
 
     private fun touchStart(x: Float, y: Float){
         if(mode == 0)
@@ -160,7 +164,7 @@ class ReviseDrawingView @JvmOverloads constructor(
     }
 
     fun brushScale(scaleFactor: Float){
-//        mPaint.strokeWidth = 10f * scaleFactor
-//        eraser.strokeWidth = 10f * scaleFactor
+        mPaint.strokeWidth = 3f * scaleFactor
+        eraser.strokeWidth = 3f * scaleFactor
     }
 }

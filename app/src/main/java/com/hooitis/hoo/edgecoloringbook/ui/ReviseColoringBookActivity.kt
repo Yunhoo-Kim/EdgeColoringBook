@@ -6,6 +6,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
@@ -29,10 +30,12 @@ import kotlin.math.max
 import kotlin.math.min
 import android.util.Log
 import android.view.GestureDetector
+import android.widget.SeekBar
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivityReviseBinding
 import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 import com.hooitis.hoo.edgecoloringbook.utils.EdgeDetection
 import com.hooitis.hoo.edgecoloringbook.utils.TOUCH_MODE
+import java.io.ByteArrayOutputStream
 
 
 class ReviseColoringBookActivity: BaseActivity(){
@@ -64,6 +67,27 @@ class ReviseColoringBookActivity: BaseActivity(){
         val bytes = intent.getByteArrayExtra("bitmap")
         mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
 
+        binding.paintView.isDrawingCacheEnabled = true
+
+        binding.saveDrawing.setOnClickListener {
+            val stream = ByteArrayOutputStream()
+            val resultBitmap = binding.paintView.drawingCache!!
+            resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val intent = Intent(applicationContext, DrawColoringBookActivity::class.java)
+            intent.putExtra("bitmap", stream.toByteArray())
+            startActivity(intent)
+            finish()
+        }
+
+        binding.brushScale.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.paintView.brushScale(progress.toFloat())
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
+        })
 
         binding.changeDrawingMode.setOnClickListener {
             if(viewModel.drawingMode.value == DRAWING_MODE){
@@ -73,12 +97,19 @@ class ReviseColoringBookActivity: BaseActivity(){
             }
         }
 
-        binding.changeBrush.setOnClickListener {
-            if(viewModel.brushType.value == 0){
-                viewModel.brushType.value = 1
-            }else{
-                viewModel.brushType.value = 0
-            }
+        binding.blackBrush.setOnClickListener {
+            viewModel.brushType.value = 0
+            binding.paintView.changeColor(Color.BLACK)
+        }
+
+        binding.whiteBrush.setOnClickListener {
+            viewModel.brushType.value = 0
+            binding.paintView.changeColor(Color.WHITE)
+        }
+
+        binding.eraserBrush.setOnClickListener {
+//            binding.resultImage.setImageBitmap(binding.paintView.drawingCache)
+            viewModel.brushType.value = 1
         }
 
         mScaleDetector = ScaleGestureDetector(this, object: ScaleGestureDetector.SimpleOnScaleGestureListener(){
@@ -101,10 +132,11 @@ class ReviseColoringBookActivity: BaseActivity(){
             }
         })
 
-        binding.resultImage.setImageBitmap(mBitmap)
+//        binding.resultImage.setImageBitmap(mBitmap)
+        binding.paintView.setImageBitmap(mBitmap)
 
         viewModel.brushColor.observe(this, android.arch.lifecycle.Observer { binding.paintView.changeColor(it!!) })
-        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer { binding.paintView.brushScale(it!!) })
+//        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer { binding.paintView.brushScale(it!!) })
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

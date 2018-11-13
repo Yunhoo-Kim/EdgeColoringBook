@@ -7,7 +7,7 @@
 
 <gradient
     android:angle="45"
-    android:endColor="@color/colorPrimary"
+    android:endColor="@color/white"
     android:startColor="@color/colorPrimary"
     android:type="linear" />
 
@@ -21,7 +21,7 @@
 <!--Use android:dashWidth="2dp" and android:dashGap="2dp"
 to add dashes to your stroke-->
 <stroke
-    android:width="0dp"
-    android:color="#FFFFFF" />
+    android:width="1dp"
+    android:color="#000000" />
 
 </shape>

@@ -68,22 +68,22 @@ class ReviseActivity: BaseActivity(){
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setContentView(binding.root)
-        mCurrentViewport = RectF(0f, 0f, binding.resultImage.width.toFloat(), binding.resultImage.height.toFloat())
+//        mCurrentViewport = RectF(0f, 0f, binding.resultImage.width.toFloat(), binding.resultImage.height.toFloat())
+//
+//        binding.startQuiz.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_PICK)
+//            intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//            intent.type = "image/*"
+//            startActivityForResult(intent, CAMERA)
+//        }
 
-        binding.startQuiz.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            intent.type = "image/*"
-            startActivityForResult(intent, CAMERA)
-        }
-
-        binding.changeBrush.setOnClickListener {
-            if(viewModel.brushType.value == 0){
-                viewModel.brushType.value = 1
-            }else{
-                viewModel.brushType.value = 0
-            }
-        }
+//        binding.changeBrush.setOnClickListener {
+//            if(viewModel.brushType.value == 0){
+//                viewModel.brushType.value = 1
+//            }else{
+//                viewModel.brushType.value = 0
+//            }
+//        }
 
 
         mScaleDetector = ScaleGestureDetector(this, object: ScaleGestureDetector.SimpleOnScaleGestureListener(){
@@ -107,20 +107,20 @@ class ReviseActivity: BaseActivity(){
 
         val colorArray = resources.getIntArray(R.array.pencils)
 
-        viewModel.brushColor.observe(this, android.arch.lifecycle.Observer { binding.paintView.changeBitmapColor(it!!) })
-        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer { binding.paintView.brushScale(it!!) })
-        viewModel.processingImage.observe(this, android.arch.lifecycle.Observer {
-            when(it!!){
-                2 -> binding.resultImage.setImageBitmap(mBitmap)
-                else -> { }
-            }
-        })
-        binding.colorSelect.apply{
-            layoutManager = LinearLayoutManager(this@ReviseActivity, LinearLayoutManager.HORIZONTAL, false)
-        }
-
-        viewModel.colorListAdapter.updateColorList(colorArray.asList())
-        initBackPress()
+//        viewModel.brushColor.observe(this, android.arch.lifecycle.Observer { binding.paintView.changeBitmapColor(it!!) })
+//        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer { binding.paintView.brushScale(it!!) })
+//        viewModel.processingImage.observe(this, android.arch.lifecycle.Observer {
+//            when(it!!){
+//                2 -> binding.resultImage.setImageBitmap(mBitmap)
+//                else -> { }
+//            }
+//        })
+//        binding.colorSelect.apply{
+//            layoutManager = LinearLayoutManager(this@ReviseActivity, LinearLayoutManager.HORIZONTAL, false)
+//        }
+//
+//        viewModel.colorListAdapter.updateColorList(colorArray.asList())
+//        initBackPress()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -154,7 +154,7 @@ class ReviseActivity: BaseActivity(){
                     if (t != null && t.second - t.first < 1000) {
                         super.onBackPressed()
                     } else {
-                        UiUtils.makeToast(binding.title, R.string.push_again_back_pressed)
+//                        UiUtils.makeToast(binding.title, R.string.push_again_back_pressed)
                     }
                 }.subscribe()
     }

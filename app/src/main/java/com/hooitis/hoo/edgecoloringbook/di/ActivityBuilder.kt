@@ -21,6 +21,9 @@ abstract class ActivityBuilder{
     @ContributesAndroidInjector(modules = [ReviseColoringBookActivityModule::class])
     abstract fun bindReviseColoringBookModule(): ReviseColoringBookActivity
 
+    @ContributesAndroidInjector(modules = [DrawColoringBookActivityModule::class])
+    abstract fun bindDrawColoringBookModule(): DrawColoringBookActivity
+
     @ContributesAndroidInjector(modules = [BeforeQuizActivityModule::class])
     abstract fun bindBeforeQuizActivityModule(): BeforeQuizActivity
 }

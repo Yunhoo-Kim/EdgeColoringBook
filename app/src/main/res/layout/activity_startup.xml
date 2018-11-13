@@ -16,39 +16,15 @@
         android:id="@+id/container_startup">
 
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textAppearance="@style/appFont"
-            android:text="@string/quiz"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/color_select"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/change_brush"/>
-
-
-        <Button
-            android:id="@+id/change_brush"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/eraser"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintStart_toEndOf="@+id/title"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
         <Button
             android:id="@+id/change_drawing_mode"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:text="@string/change_mode"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintEnd_toStartOf="@+id/change_brush"/>
+            android:layout_marginEnd="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/color_select"
@@ -58,8 +34,7 @@
             adapter="@{viewModel.colorListAdapter}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_brush"
-            app:layout_constraintBottom_toTopOf="@+id/draw_cont">
+            app:layout_constraintTop_toBottomOf="@+id/change_drawing_mode">
         </android.support.v7.widget.RecyclerView>
 
         <android.support.constraint.ConstraintLayout
@@ -67,20 +42,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/color_select"
-            app:layout_constraintBottom_toTopOf="@+id/btn_cont"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/white"
             scaleFactor="@{viewModel.scaleFactor}">
-
-            <ImageView
-                android:id="@+id/result_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
 
             <com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
                 android:id="@+id/paint_view"
@@ -90,38 +56,13 @@
                 android:splitMotionEvents="false"
                 brushType="@{viewModel.brushType}"
                 drawingMode="@{viewModel.drawingMode}"
-                app:layout_constraintStart_toStartOf="@+id/result_image"
-                app:layout_constraintEnd_toEndOf="@+id/result_image"
-                app:layout_constraintTop_toTopOf="@+id/result_image"
-                app:layout_constraintBottom_toBottomOf="@+id/result_image"/>
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/btn_cont"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <Button
-                android:id="@+id/start_quiz"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:text="@string/quiz_start"
-                android:textColor="@color/white"
-                android:background="@drawable/circle_background"
-                android:textAppearance="@style/hannaAir"
-                android:textSize="@dimen/textTitleSubSize"
-                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
         </android.support.constraint.ConstraintLayout>
+
     </android.support.constraint.ConstraintLayout>
 </layout>
 

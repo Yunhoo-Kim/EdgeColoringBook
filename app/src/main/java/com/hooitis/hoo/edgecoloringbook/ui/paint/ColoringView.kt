@@ -10,6 +10,7 @@ import android.view.*
 import kotlin.math.max
 import kotlin.math.min
 import android.graphics.Bitmap
+import android.widget.ImageView
 import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 
 
@@ -17,7 +18,7 @@ import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 class ColoringView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+        defStyleAttr: Int = 0) : ImageView(context, attrs, defStyleAttr) {
 
     private lateinit var bitmap:Bitmap
     private lateinit var brush: Bitmap
@@ -212,10 +213,9 @@ class ColoringView @JvmOverloads constructor(
         if(!::pencil.isInitialized)
             return
 
-        val scaleBrush = max(5f, min((15 * (1 / scaleFactor)), 15f)).toInt()
+        val scaleBrush = max(3f, min((3f * scaleFactor), 50f)).toInt()
         pencil = Bitmap.createScaledBitmap(originPencil,
                 scaleBrush, scaleBrush, true)
-
         changeBitmapColor(color)
     }
 }

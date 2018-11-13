@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
@@ -28,6 +29,8 @@ import kotlin.math.max
 import kotlin.math.min
 import android.util.Log
 import android.view.GestureDetector
+import android.widget.SeekBar
+import com.hooitis.hoo.edgecoloringbook.databinding.ActivityColoringbookBinding
 import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 import com.hooitis.hoo.edgecoloringbook.utils.EdgeDetection
 import com.hooitis.hoo.edgecoloringbook.utils.TOUCH_MODE
@@ -38,7 +41,7 @@ class DrawColoringBookActivity: BaseActivity(){
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: MainVM
-    private lateinit var binding: ActivityStartupBinding
+    private lateinit var binding: ActivityColoringbookBinding
     private val backButtonSubject: Subject<Long> = BehaviorSubject.createDefault(0L)
     private lateinit var mCurrentViewport: RectF
     private lateinit var mScaleDetector: ScaleGestureDetector
@@ -48,36 +51,20 @@ class DrawColoringBookActivity: BaseActivity(){
     private var mPosY = 0f
     private lateinit var mBitmap: Bitmap
 
-    private val CAMERA = 1231
-    private val DELAY:Long = 1000
 
-    private val mDelayHandler: Handler by lazy {
-        Handler()
-    }
-
-    private val mRunnable: Runnable = Runnable {
-        if(!isFinishing){
-            edgeDetection()
-        }
-    }
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_startup)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_coloringbook)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainVM::class.java)
 
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setContentView(binding.root)
-        mCurrentViewport = RectF(0f, 0f, binding.resultImage.width.toFloat(), binding.resultImage.height.toFloat())
 
-        binding.startQuiz.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.data = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            intent.type = "image/*"
-            startActivityForResult(intent, CAMERA)
-        }
+        val bytes = intent.getByteArrayExtra("bitmap")
+        mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
 
         binding.changeDrawingMode.setOnClickListener {
             if(viewModel.drawingMode.value == DRAWING_MODE){
@@ -87,13 +74,13 @@ class DrawColoringBookActivity: BaseActivity(){
             }
         }
 
-        binding.changeBrush.setOnClickListener {
-            if(viewModel.brushType.value == 0){
-                viewModel.brushType.value = 1
-            }else{
-                viewModel.brushType.value = 0
-            }
-        }
+//        binding.changeBrush.setOnClickListener {
+//            if(viewModel.brushType.value == 0){
+//                viewModel.brushType.value = 1
+//            }else{
+//                viewModel.brushType.value = 0
+//            }
+//        }
 
 
         mScaleDetector = ScaleGestureDetector(this, object: ScaleGestureDetector.SimpleOnScaleGestureListener(){
@@ -117,20 +104,27 @@ class DrawColoringBookActivity: BaseActivity(){
 
         val colorArray = resources.getIntArray(R.array.pencils)
 
-        viewModel.brushColor.observe(this, android.arch.lifecycle.Observer { binding.paintView.changeBitmapColor(it!!) })
-        viewModel.scaleFactor.observe(this, android.arch.lifecycle.Observer { binding.paintView.brushScale(it!!) })
-        viewModel.processingImage.observe(this, android.arch.lifecycle.Observer {
-            when(it!!){
-                2 -> binding.resultImage.setImageBitmap(mBitmap)
-                else -> { }
-            }
+        viewModel.brushColor.observe(this, android.arch.lifecycle.Observer {
+            binding.paintView.changeBitmapColor(it!!)
+            viewModel.brushType.value = 0
         })
+
+        binding.brushScale.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.paintView.brushScale(progress.toFloat())
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+
         binding.colorSelect.apply{
             layoutManager = LinearLayoutManager(this@DrawColoringBookActivity, LinearLayoutManager.HORIZONTAL, false)
         }
 
+        binding.paintView.setImageBitmap(mBitmap)
+
         viewModel.colorListAdapter.updateColorList(colorArray.asList())
-        initBackPress()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -139,39 +133,7 @@ class DrawColoringBookActivity: BaseActivity(){
         return true
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            when (requestCode) {
-                CAMERA -> {
-                    mBitmap = UiUtils.convertURIBM(contentResolver, Uri.parse(data!!.dataString))
-                    Thread(mRunnable).start()
-//                    mDelayHandler.postDelayed(mRunnable, DELAY)
-//                    edgeDetection()
-                }
-            }
-        }
-    }
 
-    private fun initBackPress(){
-        backButtonSubject.toFlowable(BackpressureStrategy.BUFFER)
-                .observeOn(AndroidSchedulers.mainThread())
-                .buffer(2, 1)
-                .map {
-                    Pair<Long, Long>(it[0], it[1])
-                }
-                .doOnNext { t->
-                    if (t != null && t.second - t.first < 1000) {
-                        super.onBackPressed()
-                    } else {
-                        UiUtils.makeToast(binding.title, R.string.push_again_back_pressed)
-                    }
-                }.subscribe()
-    }
-
-    override fun onBackPressed() {
-        backButtonSubject.onNext(Calendar.getInstance().timeInMillis)
-    }
 
     private fun allowX(deltaX: Float) {
         val futureX = (binding.drawCont.x) - deltaX
@@ -186,7 +148,6 @@ class DrawColoringBookActivity: BaseActivity(){
         }
 
         if (futureX in min..max) {
-            Log.d("DrawLineFutureX", "$futureX")
             binding.drawCont.x = futureX
         }
     }
@@ -204,14 +165,8 @@ class DrawColoringBookActivity: BaseActivity(){
         }
 
         if (futureY in min..max) {
-            Log.d("DrawLineFutureY", "$futureY")
             binding.drawCont.y = futureY
         }
     }
 
-    private fun edgeDetection(){
-        val mEdgeDetection = EdgeDetection()
-        mBitmap = mEdgeDetection.edgeDetection(mBitmap)
-        viewModel.processingImage.postValue(2)
-    }
 }
