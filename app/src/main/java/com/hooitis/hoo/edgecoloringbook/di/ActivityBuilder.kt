@@ -24,6 +24,15 @@ abstract class ActivityBuilder{
     @ContributesAndroidInjector(modules = [DrawColoringBookActivityModule::class])
     abstract fun bindDrawColoringBookModule(): DrawColoringBookActivity
 
-    @ContributesAndroidInjector(modules = [BeforeQuizActivityModule::class])
-    abstract fun bindBeforeQuizActivityModule(): BeforeQuizActivity
+    @ContributesAndroidInjector(modules = [PaletteFragmentModule::class])
+    abstract fun bindPaletteFragmentModule(): PaletteFragment
+
+    @ContributesAndroidInjector(modules = [SelectColoringBookActivityModule::class])
+    abstract fun bindSelectColoringBookActivityModule(): SelectColoringBookActivity
+
+    @ContributesAndroidInjector(modules = [SelectTempColoringBookActivityModule::class])
+    abstract fun bindSelectTempColoringBookActivityModule(): SelectTempColoringBookActivity
+
+    @ContributesAndroidInjector(modules = [DrawingResultActivityModule::class])
+    abstract fun bindDrawingResultActivityModule(): DrawingResultActivity
 }

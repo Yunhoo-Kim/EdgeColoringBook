@@ -1,4 +1,4 @@
-package com.hooitis.hoo.edgecoloringbook.model.proverb
+package com.hooitis.hoo.edgecoloringbook.model.edgecoloringbook
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert

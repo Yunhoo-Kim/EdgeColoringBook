@@ -155,7 +155,6 @@ class ReviseDrawingView @JvmOverloads constructor(
     }
 
     fun changeToPencil(){
-
         mode = 0
     }
 
@@ -164,7 +163,8 @@ class ReviseDrawingView @JvmOverloads constructor(
     }
 
     fun brushScale(scaleFactor: Float){
-        mPaint.strokeWidth = 3f * scaleFactor
-        eraser.strokeWidth = 3f * scaleFactor
+        val scaleBrush = max(1f, min((scaleFactor), 50f))
+        mPaint.strokeWidth = scaleBrush
+        eraser.strokeWidth = scaleBrush
     }
 }

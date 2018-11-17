@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.util.Base64
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -22,10 +24,10 @@ import java.util.*
 @Suppress("unused")
 class UiUtils {
     companion object {
-        fun addNewFragment(activity: FragmentActivity, fragment: Fragment, container_id:Int, addToBackStack: Boolean = true) = activity.supportFragmentManager.apply {
+        fun addNewFragment(activity: FragmentActivity, fragment: Fragment, container_id:Int, addToBackStack: Boolean = true, tag:String= "") = activity.supportFragmentManager.apply {
             this.beginTransaction()
                     .addToBackStack(null)
-                    .replace(container_id, fragment, "")
+                    .replace(container_id, fragment, tag)
                     .commit()
         }
 
@@ -45,6 +47,20 @@ class UiUtils {
         }
 
         fun convertURIBM(contentResolver: ContentResolver, uri: Uri): Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+
+        fun convertStringToBitmap(bitmapString: String): Bitmap{
+            val decodedBytes = Base64.decode(bitmapString.substring(bitmapString.indexOf(",") + 1),
+                    Base64.DEFAULT)
+
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        }
+
+        fun convertBitmapToString(bitmap: Bitmap): String{
+            val bytes = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            return Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT)
+        }
+
         fun makeSnackbar(view: View, resId: Int) = Snackbar.make(view, resId, Snackbar.LENGTH_SHORT).show()
         fun makeSnackbar(view: View, msg: String) = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
         fun makeToast(view: View, resId: Int) = Toast.makeText(view.context, resId, Toast.LENGTH_SHORT).show()

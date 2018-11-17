@@ -9,6 +9,7 @@ import android.graphics.RectF
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.widget.LinearLayoutManager
 import android.view.ScaleGestureDetector
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.base.BaseActivity
@@ -23,6 +24,7 @@ import java.util.*
 import javax.inject.Inject
 import android.view.GestureDetector
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivityStartBinding
+import com.hooitis.hoo.edgecoloringbook.model.edgecoloringbook.PassColoringBook
 import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 import com.hooitis.hoo.edgecoloringbook.utils.EdgeDetection
 import com.hooitis.hoo.edgecoloringbook.utils.TOUCH_MODE
@@ -66,17 +68,30 @@ class StartActivity: BaseActivity(){
         viewModel.processingImage.observe(this, android.arch.lifecycle.Observer {
             when(it!!){
                 2 -> {
+                    if(!::mBitmap.isInitialized)
+                        return@Observer
+
                     val stream = ByteArrayOutputStream()
                     mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    viewModel.savePassColoringBook(PassColoringBook(
+                            id = 0,
+                            imageData = UiUtils.convertBitmapToString(mBitmap)))
                     val intent = Intent(applicationContext, ReviseColoringBookActivity::class.java)
-                    intent.putExtra("bitmap", stream.toByteArray())
                     startActivity(intent)
                 }
                 else -> { }
             }
         })
 
-        binding.selectColoringBook.setOnClickListener {}
+        binding.selectColoringBook.setOnClickListener {
+            val intent = Intent(applicationContext, SelectColoringBookActivity::class.java)
+            startActivity(intent)
+
+        }
+        binding.selectTempColoringBook.setOnClickListener {
+            val intent = Intent(applicationContext, SelectTempColoringBookActivity::class.java)
+            startActivity(intent)
+        }
         initBackPress()
     }
 

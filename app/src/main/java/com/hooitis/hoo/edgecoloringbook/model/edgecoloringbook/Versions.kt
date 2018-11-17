@@ -1,4 +1,4 @@
-package com.hooitis.hoo.edgecoloringbook.model.proverb
+package com.hooitis.hoo.edgecoloringbook.model.edgecoloringbook
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey

@@ -3,12 +3,16 @@ package com.hooitis.hoo.edgecoloringbook.utils
 import android.animation.ObjectAnimator
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.BindingAdapter
+import android.graphics.Bitmap
 import android.media.Image
 import android.support.constraint.ConstraintLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -161,4 +165,60 @@ fun setBrush(view: ReviseDrawingView, type: MutableLiveData<Int>){
 fun setScaleFactor(view: ConstraintLayout, scale: MutableLiveData<Float>){
     view.scaleX = scale.value!!
     view.scaleY = scale.value!!
+}
+
+@BindingAdapter("imageBitmap")
+@Suppress("unused")
+fun setBitmap(view: ImageView, url: MutableLiveData<String>){
+    val imageUrl = url.value!!
+
+    Log.d("ImageURL", imageUrl)
+
+    if(imageUrl.startsWith("http"))
+        Glide.with(view.getParentActivity()!!)
+                .load(imageUrl)
+                .into(view)
+    else
+        Glide.with(view.getParentActivity()!!)
+                .load(FirebaseStorage.getInstance().reference.child(imageUrl))
+                .into(view)
+}
+
+@BindingAdapter("floatingOpen")
+@Suppress("unused")
+fun setFloatingVisible(view: FloatingActionButton, visible: MutableLiveData<Boolean>){
+    if(visible.value == null)
+        return
+
+    val isFabOpen = visible.value!!
+
+    var anim = AnimationUtils.loadAnimation(view.context, R.anim.fab_open)
+
+    if(isFabOpen)
+        anim = AnimationUtils.loadAnimation(view.context, R.anim.fab_close)
+
+    view.apply {
+        startAnimation(anim)
+        isClickable = !isFabOpen
+    }
+
+}
+@BindingAdapter("visibility")
+@Suppress("unused")
+fun setVisibility(view: Button, visible: MutableLiveData<Boolean>){
+    if(visible.value == null)
+        return
+
+    val isFabOpen = visible.value!!
+
+    var anim = AnimationUtils.loadAnimation(view.context, R.anim.fab_open)
+
+    if(!isFabOpen)
+        anim = AnimationUtils.loadAnimation(view.context, R.anim.fab_close)
+
+    view.apply {
+        startAnimation(anim)
+        isClickable = isFabOpen
+    }
+
 }

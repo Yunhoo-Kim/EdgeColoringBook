@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.databinding.ItemColorBinding
-import com.hooitis.hoo.edgecoloringbook.databinding.ItemImageBinding
-import com.hooitis.hoo.edgecoloringbook.model.quiz.Quiz
 import com.hooitis.hoo.edgecoloringbook.vm.ColorItemVM
 import com.hooitis.hoo.edgecoloringbook.vm.MainVM
-import com.hooitis.hoo.edgecoloringbook.vm.QuizItemVM
 
 
 class ColorListAdapter constructor(private val mainVM: MainVM): RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {

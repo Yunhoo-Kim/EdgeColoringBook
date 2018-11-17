@@ -118,13 +118,13 @@ class ColoringView @JvmOverloads constructor(
 
     private fun drawBitmap(){
 
-        if(mPathList.size < 10) {
-            return
-        }
+//        if(mPathList.size < 10) {
+//            return
+//        }
 
         var paint: Paint? = null
 
-        if(mode==1){
+        if(mode == 1){
             paint = eraser
         }
 
@@ -176,7 +176,10 @@ class ColoringView @JvmOverloads constructor(
         return true
     }
 
-    fun changeBitmapColor(color: Int): Bitmap {
+    fun changeBitmapColor(color: Int) {
+        if(!::pencil.isInitialized)
+            return
+
         this.color = color
         val resultBitmap = pencil.copy(pencil.config, true)
         resultBitmap.setHasAlpha(true)
@@ -194,7 +197,6 @@ class ColoringView @JvmOverloads constructor(
 
         pencil = resultBitmap
         brush = pencil
-        return resultBitmap
     }
 
     fun changeToErase(){
@@ -213,7 +215,7 @@ class ColoringView @JvmOverloads constructor(
         if(!::pencil.isInitialized)
             return
 
-        val scaleBrush = max(3f, min((3f * scaleFactor), 50f)).toInt()
+        val scaleBrush = max(1f, min((scaleFactor), 50f)).toInt()
         pencil = Bitmap.createScaledBitmap(originPencil,
                 scaleBrush, scaleBrush, true)
         changeBitmapColor(color)

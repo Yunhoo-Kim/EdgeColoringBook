@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hooitis.hoo.edgecoloringbook.vm.MainVM"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:id="@+id/container_revise">
+
+        <ImageView
+            android:id="@+id/result_drawing"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/save_to_gallery"/>
+
+        <Button
+            android:id="@+id/save_to_temp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save_to_temp"
+            android:textColor="@color/white"
+            android:textAppearance="@style/appFont"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/save_to_gallery" />
+
+        <Button
+            android:id="@+id/save_to_gallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save_to_gallery"
+            android:textColor="@color/white"
+            android:textAppearance="@style/appFont"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/save_to_temp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/save_to_temp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
+

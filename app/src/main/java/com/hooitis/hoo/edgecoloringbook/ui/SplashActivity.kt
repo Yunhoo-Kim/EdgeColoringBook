@@ -46,24 +46,24 @@ class SplashActivity: BaseActivity(){
         binding.setLifecycleOwner(this)
         setContentView(binding.root)
 
-        mDelayHandler.postDelayed(mRunnable, SPLASH_DELAY)
-//        viewModel.checkVersion()
-//                .subscribe({serverVersion ->
-//                    val localVersion = viewModel.versionsRepository.loadLocalVersions()
-//                    if(serverVersion.dbVersion != localVersion.dbVersion){
-//                        viewModel.versionsRepository.quizRepository.loadQuizFromStore().subscribe {
-//                            mDelayHandler.postDelayed(mRunnable, SPLASH_DELAY)
-//                        }
-//                    }
-//                    else
-//                        mDelayHandler.postDelayed(mRunnable, SPLASH_DELAY)
-//                    if(serverVersion.appVersion != localVersion.appVersion){
-//                        // update application from store
-//                    }
-//                    viewModel.versionsRepository.versionsDao.deleteAll()
-//                    viewModel.versionsRepository.versionsDao.insert(serverVersion)
-//                }, {
-//                })
+        viewModel.checkVersion()
+                .subscribe({serverVersion ->
+                    val localVersion = viewModel.versionsRepository.loadLocalVersions()
+                    if(serverVersion.dbVersion != localVersion.dbVersion){
+                        viewModel.versionsRepository.coloringBookRepository.loadColoringBookFromStore().subscribe {
+                            mDelayHandler.postDelayed(mRunnable, SPLASH_DELAY)
+                        }
+                    }
+                    else
+                        mDelayHandler.postDelayed(mRunnable, SPLASH_DELAY)
+                    if(serverVersion.appVersion != localVersion.appVersion){
+                        // update application from store
+                    }
+                    viewModel.versionsRepository.versionsDao.deleteAll()
+                    viewModel.versionsRepository.versionsDao.insert(serverVersion)
+                }, {
+
+                })
 
     }
 }

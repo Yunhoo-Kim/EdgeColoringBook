@@ -3,6 +3,7 @@ package com.hooitis.hoo.edgecoloringbook.di
 import android.app.Application
 import android.arch.persistence.room.Room
 import android.content.Context
+import com.google.firebase.firestore.FirebaseFirestore
 //import com.google.firebase.firestore.FirebaseFirestore
 import com.hooitis.hoo.edgecoloringbook.model.database.AppDatabase
 import dagger.Module
@@ -27,12 +28,12 @@ class AppModule(private val app: Application){
     @Provides
     @Singleton
     fun provideDatabase(app:Application): AppDatabase =
-            Room.databaseBuilder(app, AppDatabase::class.java, "hooitis.db")
+            Room.databaseBuilder(app, AppDatabase::class.java, "edgeColoringBook.db")
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
 
-//    @Provides
-//    @Singleton
-//    fun provideFirebaseStore(): FirebaseFirestore = FirebaseFirestore.getInstance()
+    @Provides
+    @Singleton
+    fun provideFirebaseStore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 }

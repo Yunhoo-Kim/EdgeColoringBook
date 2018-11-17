@@ -2,7 +2,7 @@ package com.hooitis.hoo.edgecoloringbook.vm
 
 import android.arch.lifecycle.MutableLiveData
 import com.hooitis.hoo.edgecoloringbook.base.BaseViewModel
-import com.hooitis.hoo.edgecoloringbook.model.proverb.VersionsRepository
+import com.hooitis.hoo.edgecoloringbook.model.edgecoloringbook.VersionsRepository
 import javax.inject.Inject
 
 
@@ -17,5 +17,5 @@ class VersionVM @Inject constructor(
 //        checkVersion()
     }
 
-//    fun checkVersion() = versionsRepository.checkVersion()
+    fun checkVersion() = versionsRepository.checkVersion()
 }
