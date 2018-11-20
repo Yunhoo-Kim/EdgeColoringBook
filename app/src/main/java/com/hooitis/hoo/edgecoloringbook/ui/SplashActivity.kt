@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
 import com.hooitis.hoo.edgecoloringbook.R
@@ -24,6 +26,11 @@ class SplashActivity: BaseActivity(){
     }
     private lateinit var viewModel: VersionVM
     private lateinit var binding: ActivitySplashBinding
+    private val splashTextList:IntArray = intArrayOf(
+            R.string.splash_text,
+            R.string.splash_text1,
+            R.string.splash_text2,
+            R.string.splash_text3)
 
 
 
@@ -42,9 +49,13 @@ class SplashActivity: BaseActivity(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(VersionVM::class.java)
 
+
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setContentView(binding.root)
+
+        binding.splashText.setText(splashTextList.random())
+        binding.splashImage.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY)
 
         viewModel.checkVersion()
                 .subscribe({serverVersion ->

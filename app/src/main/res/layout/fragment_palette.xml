@@ -28,8 +28,8 @@
             android:layout_alignParentBottom="true"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintTop_toTopOf="parent"
-            ads:layout_constraintBottom_toTopOf="@+id/color_select"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/color_select"
             ads:adSize="BANNER"
             ads:adUnitId="@string/admob_banner_id">
 
@@ -43,8 +43,8 @@
             adapter="@{viewModel.colorListAdapter}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adView">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/adView">
         </android.support.v7.widget.RecyclerView>
 
     </android.support.constraint.ConstraintLayout>

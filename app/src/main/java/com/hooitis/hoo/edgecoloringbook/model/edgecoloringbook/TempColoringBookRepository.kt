@@ -20,6 +20,7 @@ class TempColoringBookRepository @Inject constructor(val tempColoringBookDao: Te
 
     fun getTempColoringBooks(): List<Long> = tempColoringBookDao.get()
     fun getTempColoringBooks(id: Long): TempColoringBook  = tempColoringBookDao.get(id)
+    fun deleteTempColoringBook(id: Long) = tempColoringBookDao.delete(id)
 
     fun saveTempColoringBook(temp: TempColoringBook): Observable<TempColoringBook> {
         tempColoringBookDao.insert(temp)

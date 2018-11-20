@@ -1,6 +1,8 @@
 package com.hooitis.hoo.edgecoloringbook.ui
 
+import android.content.DialogInterface
 import android.databinding.DataBindingUtil
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,10 +40,27 @@ class TempColoringBookListAdapter constructor(private val mainVM:MainVM) : Recyc
         fun bind(id: Long){
             binding.viewModel = coloringVM
             val tempColoringBook = mainVM.getTempColoringBook(id)
-            Log.d("Image Bind", "${tempColoringBook.id}")
             binding.coloringImage.setImageBitmap(UiUtils.convertStringToBitmap(tempColoringBook.imageData))
             binding.coloringImage.setOnClickListener {
                 mainVM.tempImageId.postValue(id)
+            }
+            binding.coloringImage.setOnLongClickListener {
+                val dialog = AlertDialog.Builder(it.context)
+                dialog.setTitle(R.string.do_you_want_to_remove)
+
+                dialog.setPositiveButton(R.string.remove) { dialog, _ ->
+                    mainVM.deleteTempColoringBook(id)
+                    mainVM.getTempColoringBookList()
+                    dialog.dismiss()
+
+                }
+                dialog.setNegativeButton(R.string.cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val alertDialog = dialog.create()
+                alertDialog.show()
+
+                return@setOnLongClickListener true
             }
         }
     }

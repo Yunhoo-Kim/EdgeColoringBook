@@ -28,6 +28,8 @@ class MainVM @Inject constructor(
     val scaleFactor: MutableLiveData<Float> = MutableLiveData()
     val brushType: MutableLiveData<Int> = MutableLiveData()
     val brushColor: MutableLiveData<Int> = MutableLiveData()
+    val brushBackgroundColor: MutableLiveData<Int> = MutableLiveData()
+    val eraserBackgroundColor: MutableLiveData<Int> = MutableLiveData()
     val drawingMode: MutableLiveData<Int> = MutableLiveData()
     val processingImage: MutableLiveData<Int> = MutableLiveData()
     val isFabOpen: MutableLiveData<Boolean> = MutableLiveData()
@@ -52,19 +54,20 @@ class MainVM @Inject constructor(
         scaleFactor.value = 1f
         brushType.value = 0
         brushColor.value = Color.BLACK
+        brushBackgroundColor.value = Color.WHITE
+        eraserBackgroundColor.value = Color.WHITE
         drawingMode.value = TOUCH_MODE
         saveButtonVisibility.value = true
     }
 
     fun getColoringBookList() {
         val coloringBooks = coloringBookRepository.getColoringBooks().blockingFirst()
-        coloringBookListAdapter.updateColoringBookList(coloringBooks)
+        coloringBookListAdapter.updateColoringBookList(coloringBooks.asReversed())
     }
 
     fun getTempColoringBookList() {
         val coloringBooks = tempColoringBookRepository.getTempColoringBooks()
-        Log.d("Image", "${coloringBooks.size}")
-        tempColoringBookListAdapter.updateTempColoringBookList(coloringBooks)
+        tempColoringBookListAdapter.updateTempColoringBookList(coloringBooks.asReversed())
     }
 
     fun savePassColoringBook(passC: PassColoringBook) = passColoringBookRepository.savePassColoringBook(passC)
@@ -72,4 +75,5 @@ class MainVM @Inject constructor(
     fun saveTempColoringBook(tempC: TempColoringBook) = tempColoringBookRepository.saveTempColoringBook(tempC)
     fun getTempColoringBook(id: Long) = tempColoringBookRepository.getTempColoringBooks(id)
     fun getTempColoringBooks() = tempColoringBookRepository.getTempColoringBooks()
+    fun deleteTempColoringBook(id: Long) = tempColoringBookRepository.deleteTempColoringBook(id)
 }

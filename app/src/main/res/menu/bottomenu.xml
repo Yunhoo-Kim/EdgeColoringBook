@@ -7,10 +7,6 @@
         android:icon="@drawable/microphone"
         android:title="@string/save"/>
 
-    <item
-        android:id="@+id/bottom_camera"
-        android:icon="@drawable/microphone"
-        android:title="@string/dl"/>
 
     <item
         android:id="@+id/bottom_settings"

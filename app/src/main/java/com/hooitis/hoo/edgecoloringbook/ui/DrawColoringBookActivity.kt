@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.databinding.DataBindingUtil
 import android.graphics.*
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import com.hooitis.hoo.edgecoloringbook.R
@@ -41,6 +45,10 @@ class DrawColoringBookActivity: BaseActivity(){
     private lateinit var mBitmap: Bitmap
     private var mBrushColor = 0
     private var tempId: Long = 0
+    private var width: Int = 0
+    private var height: Int = 0
+    private var drawContWidth: Int = 0
+    private var drawContHeight: Int = 0
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -134,7 +142,7 @@ class DrawColoringBookActivity: BaseActivity(){
                         viewModel.saveButtonVisibility.postValue(false)
                 }
 
-                if(mScaleFactor <= 1.0f){
+                if((mScaleFactor <= 1.0f && (binding.drawCont.x < 0 || binding.drawCont.y < 0)) || (mScaleFactor <= 1.0f && (binding.drawCont.x > width || binding.drawCont.y > height))){
                     binding.drawCont.x = 0.0f
                     binding.drawCont.y = 0.0f
                 }
@@ -167,6 +175,17 @@ class DrawColoringBookActivity: BaseActivity(){
             viewModel.drawingMode.value = DRAWING_MODE
         })
 
+        viewModel.brushType.observe(this, android.arch.lifecycle.Observer {
+            if(it == 0) {
+                viewModel.brushBackgroundColor.postValue(getColor(R.color.colorPrimary))
+                viewModel.eraserBackgroundColor.postValue(getColor(R.color.white))
+            }
+            else{
+                viewModel.brushBackgroundColor.postValue(getColor(R.color.white))
+                viewModel.eraserBackgroundColor.postValue(getColor(R.color.colorPrimary))
+            }
+        })
+
         viewModel.colorListAdapter.updateColorList(colorArray.asList())
 
         fitToBitmap()
@@ -174,6 +193,8 @@ class DrawColoringBookActivity: BaseActivity(){
         initBackPress()
 
         binding.paintView.setImageBitmap(mBitmap)
+        viewModel.scaleFactor.postValue(0.8f)
+
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -187,6 +208,8 @@ class DrawColoringBookActivity: BaseActivity(){
         windowManager.defaultDisplay.getSize(point)
 
         val layoutParams = binding.drawCont.layoutParams
+        width = point.x
+        height = point.y
 
         if(mBitmap.height > mBitmap.width){
             val ratio = mBitmap.height.toDouble() / mBitmap.width.toDouble()
@@ -204,7 +227,7 @@ class DrawColoringBookActivity: BaseActivity(){
 
     private fun allowX(deltaX: Float) {
         val futureX = (binding.drawCont.x) - deltaX
-        val delta = 0 + (binding.drawCont.width * viewModel.scaleFactor.value!! - binding.drawCont.width) / 2
+        val delta = 0 + (binding.drawCont.width * viewModel.scaleFactor.value!! - binding.drawCont.width) / 1.2
         val limit = binding.root.width - binding.drawCont.width - delta
         var max = delta
         var min = limit
@@ -221,7 +244,7 @@ class DrawColoringBookActivity: BaseActivity(){
 
     private fun allowY(deltaY: Float) {
         val futureY = (binding.drawCont.y) - deltaY
-        val delta = (binding.drawCont.height * viewModel.scaleFactor.value!! - binding.drawCont.height) / 2
+        val delta = (binding.drawCont.height * viewModel.scaleFactor.value!! - binding.drawCont.height) / 1.2
         val limit = binding.root.height - binding.drawCont.height - delta
         var max = delta
         var min = limit
@@ -252,12 +275,26 @@ class DrawColoringBookActivity: BaseActivity(){
                 }.subscribe()
     }
 
+    private fun openDialog(){
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle(R.string.do_you_want_to_cancel)
+
+        dialog.setPositiveButton(R.string.confirm) { dialog, _ ->
+            dialog.dismiss()
+            finish()
+        }
+        dialog.setNegativeButton(R.string.cancel) { dialog, _ ->
+            dialog.dismiss()
+        }
+        val alertDialog = dialog.create()
+        alertDialog.show()
+    }
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentByTag("colorBrush")
         when {
-            fragment == null -> backButtonSubject.onNext(Calendar.getInstance().timeInMillis)
+            fragment == null -> openDialog()
             fragment.isVisible -> super.onBackPressed()
-            else -> backButtonSubject.onNext(Calendar.getInstance().timeInMillis)
+            else -> openDialog()
         }
     }
 

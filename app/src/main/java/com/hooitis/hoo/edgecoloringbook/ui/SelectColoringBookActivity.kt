@@ -1,5 +1,6 @@
 package com.hooitis.hoo.edgecoloringbook.ui
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -72,8 +73,7 @@ class SelectColoringBookActivity: BaseActivity(){
                                     id = 0,
                                     imageData = UiUtils.convertBitmapToString(resultBitmap)))
                             val intent = Intent(applicationContext, DrawColoringBookActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                            startActivityForResult(intent, 0)
                             return false
                         }
                     })
@@ -83,5 +83,13 @@ class SelectColoringBookActivity: BaseActivity(){
         viewModel.getColoringBookList()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(resultCode == Activity.RESULT_OK){
+            val intent = Intent()
+            intent.putExtra("save", true)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+    }
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="radio_button_selected_color">#fffc6300</color>
+    <color name="radio_button_selected_color">#ffE32B51</color>
     <color name="radio_button_unselected_color">#ffffff</color>
     <!--<color name="colorPrimary">#D1999F</color>-->
     <color name="colorPrimary">#E32B51</color>
@@ -13,7 +13,7 @@
     <color name="colorPrimaryBlackDarkTrans">#c8000000</color>
     <color name="colorPrimaryBlue">#ADBEC5</color>
     <color name="colorPrimaryWhite">#F2F3EE</color>
-    <color name="colorAccent">#fa8b00</color>
+    <color name="colorAccent">#EE204D</color>
     <color name="white">#FFFFFF</color>
     <color name="palette">#FABDAC</color>
     <color name="red">#EE204D</color>

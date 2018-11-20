@@ -30,6 +30,16 @@
         <item name="android:layout_marginBottom">4dp</item>
     </style>
 
+    <!-- Dialog-->
+    <style name="Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/white</item>     <!--Dialog background-->
+        <item name="android:textColorPrimary">@color/colorPrimary</item>    <!--content text color-->
+        <item name="android:windowTitleStyle">@style/appFont</item> <!--title text style-->
+        <item name="colorAccent">@color/colorAccent</item>     <!--Button text color-->
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
     <!-- Radio Button -->
     <style name="RadioButton">
         <item name="android:textColor">@drawable/button_text_color</item>

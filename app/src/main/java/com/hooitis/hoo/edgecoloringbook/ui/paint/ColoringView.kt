@@ -28,7 +28,7 @@ class ColoringView @JvmOverloads constructor(
     private var drawingMode = 0
     private val mPathList: MutableList<Pair<Float, Float>> = mutableListOf()
     private var color: Int = 0
-
+    private var scaleBrush = 2
     private var mScaleFactor = 1f
 
     val TOUCH_TOLERANCE = 4
@@ -67,13 +67,14 @@ class ColoringView @JvmOverloads constructor(
 
 
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil2),
-                15, 15, true)
+//        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil2),
+        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil1),
+                50, 50, true)
 
         pencil = originPencil
-        color = context.getColor(R.color.colorPrimary)
+        brushScale(12f)
+        color = context.getColor(R.color.black)
         changeBitmapColor(color)
-//        brush = pencil
 
         canvas = Canvas(bitmap)
         invalidate()
@@ -83,6 +84,7 @@ class ColoringView @JvmOverloads constructor(
         mPathList.clear()
         mX = x
         mY = y
+        mPathList.add(Pair(x, y))
     }
 
     private fun touchMove(x: Float, y: Float){
@@ -94,6 +96,7 @@ class ColoringView @JvmOverloads constructor(
             mX = x
             mY = y
         }
+
         drawBitmap()
     }
 
@@ -107,6 +110,7 @@ class ColoringView @JvmOverloads constructor(
 
         var e1 = (if(dx > dy) dx else -dy) / 2
         var e2: Int
+
         while(true){
             mPathList.add(Pair(xx.toFloat(), yy.toFloat()))
             if(xx == p2.x && yy == p2.y) break
@@ -117,19 +121,17 @@ class ColoringView @JvmOverloads constructor(
     }
 
     private fun drawBitmap(){
-
-//        if(mPathList.size < 10) {
-//            return
-//        }
-
         var paint: Paint? = null
 
         if(mode == 1){
             paint = eraser
         }
 
+        val f = scaleBrush / 2
+
+
         for(i in mPathList){
-            canvas.drawBitmap(brush, i.first, i.second, paint)
+            canvas.drawBitmap(brush, i.first, i.second - f, paint)
         }
 
         mPathList.clear()
@@ -141,7 +143,7 @@ class ColoringView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if(drawingMode != DRAWING_MODE)
-           return false
+            return false
 
         val action = event!!.action
 
@@ -215,9 +217,10 @@ class ColoringView @JvmOverloads constructor(
         if(!::pencil.isInitialized)
             return
 
-        val scaleBrush = max(1f, min((scaleFactor), 50f)).toInt()
+        scaleBrush = max(1f, min((scaleFactor), 50f)).toInt()
         pencil = Bitmap.createScaledBitmap(originPencil,
                 scaleBrush, scaleBrush, true)
+
         changeBitmapColor(color)
     }
 }

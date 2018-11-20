@@ -9,6 +9,7 @@ import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -139,7 +140,15 @@ class ReviseColoringBookActivity: BaseActivity(){
                 mScaleFactor = max(MIN_SCALE, min(mScaleFactor, MAX_SCALE))
 
                 viewModel.scaleFactor.value = mScaleFactor
-                if(mScaleFactor < 1.0f){
+                if(mScaleFactor <= 1.3f){
+                    if(!viewModel.saveButtonVisibility.value!!)
+                        viewModel.saveButtonVisibility.postValue(true)
+                } else{
+                    if(viewModel.saveButtonVisibility.value!!)
+                        viewModel.saveButtonVisibility.postValue(false)
+                }
+
+                if(mScaleFactor <= 1.0f){
                     binding.drawCont.x = 0.0f
                     binding.drawCont.y = 0.0f
                 }
@@ -191,13 +200,13 @@ class ReviseColoringBookActivity: BaseActivity(){
         }
 
         binding.drawCont.layoutParams = layoutParams
-
+        viewModel.scaleFactor.postValue(0.8f)
     }
 
 
     private fun allowX(deltaX: Float) {
         val futureX = (binding.drawCont.x) - deltaX
-        val delta = 0 + (binding.drawCont.width * viewModel.scaleFactor.value!! - binding.drawCont.width) / 2
+        val delta = 0 + (binding.drawCont.width * viewModel.scaleFactor.value!! - binding.drawCont.width) / 1.2
         val limit = binding.root.width - binding.drawCont.width - delta
         var max = delta
         var min = limit
@@ -214,7 +223,7 @@ class ReviseColoringBookActivity: BaseActivity(){
 
     private fun allowY(deltaY: Float) {
         val futureY = (binding.drawCont.y) - deltaY
-        val delta = (binding.drawCont.height * viewModel.scaleFactor.value!! - binding.drawCont.height) / 2
+        val delta = (binding.drawCont.height * viewModel.scaleFactor.value!! - binding.drawCont.height) / 1.2
         val limit = binding.root.height - binding.drawCont.height - delta
         var max = delta
         var min = limit
@@ -245,8 +254,23 @@ class ReviseColoringBookActivity: BaseActivity(){
                 }.subscribe()
     }
 
+    private fun openDialog(){
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle(R.string.do_you_want_to_cancel)
+
+        dialog.setPositiveButton(R.string.confirm) { dialog, _ ->
+            dialog.dismiss()
+            finish()
+        }
+        dialog.setNegativeButton(R.string.cancel) { dialog, _ ->
+            dialog.dismiss()
+        }
+        val alertDialog = dialog.create()
+        alertDialog.show()
+    }
+
     override fun onBackPressed() {
-        backButtonSubject.onNext(Calendar.getInstance().timeInMillis)
+        openDialog()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

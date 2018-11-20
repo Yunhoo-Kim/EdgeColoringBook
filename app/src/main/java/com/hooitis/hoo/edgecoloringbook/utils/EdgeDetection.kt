@@ -122,8 +122,6 @@ class EdgeDetection {
             for(i in 1 until width) {
                 for (j in 1 until height) {
                     var red = 0f
-//                    var green = 0f
-//                    var blue = 0f
 
                     for(k in -hNum..hNum)
                         for(l in -hNum..hNum){
@@ -182,28 +180,10 @@ class EdgeDetection {
 
             val newBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false).run {
                 val bytes = ByteArrayOutputStream()
-                this.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
+                this.compress(Bitmap.CompressFormat.JPEG, 80, bytes)
                 return@run convertToGray(this)
             }
 
-//            var newBitmap = convertToGray(bitmap)
-
-//            val gMatrix = arrayOf(
-//                    floatArrayOf(2/159f, 4/159f, 5/159f, 4/159f, 2/159f),
-//                    floatArrayOf(4/159f, 9/159f, 12/159f, 9/159f, 4/159f),
-//                    floatArrayOf(5/159f, 12/159f, 15/159f, 12/159f, 5/159f),
-//                    floatArrayOf(4/159f, 9/159f, 12/159f, 9/159f, 4/159f),
-//                    floatArrayOf(2/159f, 4/159f, 5/159f, 4/159f, 2/159f))
-//
-            val gMatrix = arrayOf(
-                    floatArrayOf(1/16f, 1/8f, 1/16f),
-                    floatArrayOf(1/8f, 1/4f, 1/8f),
-                    floatArrayOf(1/16f, 1/8f, 1/16f))
-
-            val gdMatrix = arrayOf(
-                    floatArrayOf(-1f, -1f, -1f),
-                    floatArrayOf(-1f, 8f, -1f),
-                    floatArrayOf(-1f, -1f, -1f))
 
             val xMatrix = arrayOf(
                     intArrayOf(1, 0, -1),
@@ -215,11 +195,6 @@ class EdgeDetection {
                     intArrayOf(0, 0, 0),
                     intArrayOf(-1, -2, -1))
 
-
-//            val gBitmap = convolutionBitmap(newBitmap, gMatrix, gMatrix.size)
-//            return newBitmap
-//            return convolutionBitmap(newBitmap, gdMatrix, gdMatrix.size)
-//            return convolutionBitmap(cannyBitmap(newBitmap, xMatrix, yMatrix), gdMatrix, gdMatrix.size)
             return cannyBitmap(newBitmap, xMatrix, yMatrix)
         }
 

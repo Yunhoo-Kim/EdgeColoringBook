@@ -90,7 +90,6 @@ dependencies {
 
     // Zoon image view
     // Progress dialog
-    implementation 'com.github.tibolte:elasticdownload:1.0.3'
 
     // Support Design
     implementation "com.android.support:design:$android_support_version"

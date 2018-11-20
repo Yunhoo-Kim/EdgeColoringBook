@@ -44,6 +44,7 @@ class SelectTempColoringBookActivity: BaseActivity(){
 
         MobileAds.initialize(this,  getString(R.string.admob))
         val adRequest = AdRequest.Builder().build()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_select_temp_coloringbook)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainVM::class.java)
 

@@ -13,18 +13,27 @@
         android:layout_height="match_parent"
         android:id="@+id/container_splash">
 
+        <ImageView
+            android:id="@+id/splash_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_background3"
+            android:scaleType="centerCrop" />
+
         <TextView
+            android:id="@+id/splash_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/game_text2"
-            android:textAlignment="center"
-            style="@style/hannaEleven"
-            android:textSize="@dimen/textTitleSubSize"
-            android:textColor="@color/colorPrimary"
+            android:text="@string/splash_text"
+            android:textAlignment="textStart"
+            style="@style/appFont.Title"
+            android:textColor="@color/white"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
