@@ -19,7 +19,6 @@
             android:id="@+id/coloring_books"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:clipToPadding="false"
             adapter="@{viewModel.coloringBookListAdapter}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/adView"

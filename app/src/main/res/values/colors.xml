@@ -3,8 +3,8 @@
     <color name="radio_button_selected_color">#ffE32B51</color>
     <color name="radio_button_unselected_color">#ffffff</color>
     <!--<color name="colorPrimary">#D1999F</color>-->
-    <color name="colorPrimary">#E32B51</color>
-    <color name="colorPrimaryLight">#EDD5D9</color>
+    <color name="colorPrimary">#D74177</color>
+    <color name="colorPrimaryLight">#FFE98A</color>
     <color name="colorPrimaryDark">#EDC6C5</color>
     <color name="colorPrimaryDarker">#4b0000</color>
     <color name="colorPrimaryGray">#E0E0E0</color>

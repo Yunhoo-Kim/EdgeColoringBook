@@ -31,6 +31,7 @@ class AppModule(private val app: Application){
             Room.databaseBuilder(app, AppDatabase::class.java, "edgeColoringBook.db")
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
+//                    .addMigrations(MyRoomDatabase.MIGRATION_1_2)
                     .build()
 
     @Provides

@@ -14,4 +14,8 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun coloringBookDao(): ColoringBookDao
     abstract fun tempColoringBookDao(): TempColoringBookDao
     abstract fun passColoringBookDao(): PassColoringBookDao
+//    companion object {
+//        @JvmField
+//        val MIGRATION_1_2 = Migration1To2()
+//    }
 }
