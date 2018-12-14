@@ -27,7 +27,7 @@ class UiUtils {
         fun addNewFragment(activity: FragmentActivity, fragment: Fragment, container_id:Int, addToBackStack: Boolean = true, tag:String= "") = activity.supportFragmentManager.apply {
             this.beginTransaction()
                     .addToBackStack(null)
-                    .replace(container_id, fragment, tag)
+                    .add(container_id, fragment, tag)
                     .commit()
         }
 

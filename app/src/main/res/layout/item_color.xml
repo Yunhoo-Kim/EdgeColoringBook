@@ -16,8 +16,9 @@
 
         <ImageView
             android:id="@+id/color_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             android:scaleType="fitCenter"
             android:padding="7dp"
             android:src="@drawable/pencil_icon"

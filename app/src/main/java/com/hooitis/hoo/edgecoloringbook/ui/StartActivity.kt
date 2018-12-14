@@ -29,6 +29,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivityStartBinding
+import com.hooitis.hoo.edgecoloringbook.model.SharedPreferenceHelper
 import com.hooitis.hoo.edgecoloringbook.model.edgecoloringbook.PassColoringBook
 import com.hooitis.hoo.edgecoloringbook.utils.DRAWING_MODE
 import com.hooitis.hoo.edgecoloringbook.utils.EdgeDetection
@@ -125,7 +126,24 @@ class StartActivity: BaseActivity(){
             val intent = Intent(applicationContext, SelectTempColoringBookActivity::class.java)
             startActivity(intent)
         }
+
+        binding.guideButton.setOnClickListener {
+            openGuide()
+        }
+
         initBackPress()
+
+        val firstOpen = !viewModel.coloringBookRepository.sharedPreferenceHelper.getBoolean(SharedPreferenceHelper.KEY.FIRST_OPEN)
+
+        if(firstOpen){
+            openGuide()
+            viewModel.coloringBookRepository.sharedPreferenceHelper.setBoolean(SharedPreferenceHelper.KEY.FIRST_OPEN, true)
+        }
+    }
+
+    private fun openGuide(){
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 
 

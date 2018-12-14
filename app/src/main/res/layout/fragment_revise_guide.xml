@@ -12,8 +12,24 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@color/colorPrimaryGray"
-        android:id="@+id/container_startup">
+        android:id="@+id/container_revise">
+
+        <Button
+            android:id="@+id/save_drawing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"
+            android:textAppearance="@style/appFont.Medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/draw_cont"
@@ -23,21 +39,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/white"
-            scaleFactor="@{viewModel.scaleFactor}">
+            android:foreground="@color/colorPrimaryBlackDarkTrans"
+            android:background="@color/white">
 
-            <com.hooitis.hoo.edgecoloringbook.ui.paint.ColoringView
+            <com.hooitis.hoo.edgecoloringbook.ui.paint.ReviseDrawingView
                 android:id="@+id/paint_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@android:color/transparent"
                 android:splitMotionEvents="false"
-                brushType="@{viewModel.brushType}"
-                drawingMode="@{viewModel.drawingMode}"
+                android:backgroundTint="@color/white"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -57,9 +72,8 @@
             app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
 
-
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/pencil_brush"
+            android:id="@+id/black_brush"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:borderWidth="0dp"
@@ -68,14 +82,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/pencil_icon"
-            android:backgroundTint="@color/white"
-            android:tint="@{viewModel.brushColor}"
+            android:backgroundTint="@color/colorPrimaryWhite"
             app:fabCustomSize="40dp"
-            app:elevation="10dp"
+            app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
 
+
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/color_brush"
+            android:id="@+id/white_brush"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:borderWidth="0dp"
@@ -83,8 +97,9 @@
             android:layout_marginStart="20dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/color_pencils"
-            android:backgroundTint="@color/white"
+            android:src="@drawable/pencil_icon"
+            android:tint="@color/white"
+            android:backgroundTint="@color/colorPrimaryWhite"
             app:fabCustomSize="40dp"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
@@ -98,12 +113,11 @@
             android:layout_marginStart="20dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:backgroundTint="@{viewModel.eraserBackgroundColor}"
             android:src="@drawable/eraser"
+            android:backgroundTint="@color/colorPrimaryWhite"
             app:fabCustomSize="40dp"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp" />
-
 
         <SeekBar
             android:id="@+id/brush_size_bar"
@@ -111,33 +125,82 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginTop="5dp"
-            android:minHeight="5dp"
-            android:minWidth="5dp"
-            android:maxHeight="5dp"
-            android:maxWidth="5dp"
+            android:minHeight="7dp"
+            android:minWidth="7dp"
+            android:maxHeight="7dp"
+            android:maxWidth="7dp"
             android:max="30"
-            android:progress="12"
+            android:progress="10"
             android:thumb="@drawable/custom_thumb"
             android:progressDrawable="@drawable/seekbar_style"
             android:splitTrack="false"
+            app:layout_constraintStart_toEndOf="@+id/black_brush"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pencil_brush"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
-            android:id="@+id/save_drawing"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="20dp"
+            android:text="@string/change_to_black_pencil"
             android:textColor="@color/white"
-            android:backgroundTint="@color/colorPrimary"
-            android:textAppearance="@style/appFont"
-            visibility="@{viewModel.saveButtonVisibility}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/black_brush"
+            app:layout_constraintBottom_toBottomOf="@+id/black_brush" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_to_white_pencil"
+            android:textColor="@color/white"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/white_brush"
+            app:layout_constraintBottom_toBottomOf="@+id/white_brush" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_to_eraser_mode"
+            android:textColor="@color/white"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/eraser_brush"
+            app:layout_constraintBottom_toBottomOf="@+id/eraser_brush" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/adjust_brush_size"
+            android:textColor="@color/white"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/brush_size_bar"
+            app:layout_constraintTop_toBottomOf="@+id/brush_size_bar" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_mode_guide"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="@+id/mode_setting"
+            app:layout_constraintBottom_toTopOf="@+id/mode_setting" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/revise_guide"
+            android:textAppearance="@style/appFont.Title"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            app:layout_constraintTop_toTopOf="@+id/textView4"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+                />
     </android.support.constraint.ConstraintLayout>
+
 </layout>
 

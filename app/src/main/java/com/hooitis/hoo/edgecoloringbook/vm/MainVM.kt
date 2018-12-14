@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @Suppress("unused")
 class MainVM @Inject constructor(
-        private val coloringBookRepository: ColoringBookRepository,
+        val coloringBookRepository: ColoringBookRepository,
         private val passColoringBookRepository: PassColoringBookRepository,
         private val tempColoringBookRepository: TempColoringBookRepository
 ): BaseViewModel() {

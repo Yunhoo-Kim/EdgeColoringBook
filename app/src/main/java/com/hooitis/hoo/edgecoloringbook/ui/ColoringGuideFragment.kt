@@ -12,53 +12,42 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.base.BaseFragment
+import com.hooitis.hoo.edgecoloringbook.databinding.FragmentColoringGuideBinding
 import com.hooitis.hoo.edgecoloringbook.databinding.FragmentPaletteBinding
+import com.hooitis.hoo.edgecoloringbook.databinding.FragmentReviseGuideBinding
 import com.hooitis.hoo.edgecoloringbook.di.ViewModelFactory
 import com.hooitis.hoo.edgecoloringbook.vm.MainVM
 import javax.inject.Inject
 
-class PaletteFragment: BaseFragment() {
+class ColoringGuideFragment: BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: MainVM
-    private lateinit var binding: FragmentPaletteBinding
+    private lateinit var binding: FragmentColoringGuideBinding
 
     private var isFirst = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        MobileAds.initialize(this.activity, getString(R.string.admob))
-        val adRequest = AdRequest.Builder().build()
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_palette, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_coloring_guide, container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(MainVM::class.java)
         binding.viewModel = viewModel
-        binding.adView.loadAd(adRequest)
 
 
-        binding.colorSelect.apply {
-            layoutManager = GridLayoutManager(context, 6)
-        }
         binding.setLifecycleOwner(this)
-        viewModel.brushColor.observe(this, Observer {
-            if(isFirst){
-                isFirst = false
-                return@Observer
-            }
-
-            fragmentManager!!.popBackStackImmediate()
-        })
-
-
+        binding.saveDrawing.setOnClickListener {
+            this.activity!!.onBackPressed()
+        }
         return binding.root
     }
 
     companion object {
-        fun newInstance(args: Bundle?): PaletteFragment{
-            return PaletteFragment().apply {
+        fun newInstance(args: Bundle?): ColoringGuideFragment{
+            return ColoringGuideFragment().apply {
                 this.arguments = args
             }
         }

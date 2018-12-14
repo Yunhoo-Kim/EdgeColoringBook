@@ -42,6 +42,7 @@ class DrawColoringBookActivity: BaseActivity(){
     private lateinit var mScaleDetector: ScaleGestureDetector
     private lateinit var mGestureDetector: GestureDetector
     private var mScaleFactor = 1f
+    private var mBScaleFactor = 1f
     private lateinit var mBitmap: Bitmap
     private var mBrushColor = 0
     private var tempId: Long = 0
@@ -49,6 +50,8 @@ class DrawColoringBookActivity: BaseActivity(){
     private var height: Int = 0
     private var drawContWidth: Int = 0
     private var drawContHeight: Int = 0
+    private var limitWidth: Int = 0
+    private var limitHeight: Int = 0
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -91,6 +94,7 @@ class DrawColoringBookActivity: BaseActivity(){
             }
         }
 
+
         binding.brushSizeBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.paintView.brushScale(progress.toFloat())
@@ -129,6 +133,7 @@ class DrawColoringBookActivity: BaseActivity(){
 
         mScaleDetector = ScaleGestureDetector(this, object: ScaleGestureDetector.SimpleOnScaleGestureListener(){
             override fun onScale(detector: ScaleGestureDetector?): Boolean {
+                mBScaleFactor = mScaleFactor
                 mScaleFactor *= detector!!.scaleFactor
                 mScaleFactor = max(MIN_SCALE, min(mScaleFactor, MAX_SCALE))
                 viewModel.scaleFactor.value = mScaleFactor
@@ -142,9 +147,18 @@ class DrawColoringBookActivity: BaseActivity(){
                         viewModel.saveButtonVisibility.postValue(false)
                 }
 
-                if((mScaleFactor <= 1.0f && (binding.drawCont.x < 0 || binding.drawCont.y < 0)) || (mScaleFactor <= 1.0f && (binding.drawCont.x > width || binding.drawCont.y > height))){
+                if(mScaleFactor > MIN_SCALE && mScaleFactor < 0.9f){
                     binding.drawCont.x = 0.0f
-                    binding.drawCont.y = 0.0f
+                    binding.drawCont.y = ((binding.containerStartup.height / 2) - (binding.drawCont.height / 2)).toFloat()
+                }
+
+                if((binding.drawCont.x > (binding.containerStartup.width + limitWidth) || binding.drawCont.x < -limitWidth) && mBScaleFactor > mScaleFactor){
+                    binding.drawCont.x = 0.0f
+                    binding.drawCont.y = ((binding.containerStartup.height / 2) - (binding.drawCont.height / 2)).toFloat()
+                }
+                if((binding.drawCont.y > (binding.containerStartup.height + limitHeight) || binding.drawCont.y < -limitHeight) && mBScaleFactor > mScaleFactor){
+                    binding.drawCont.x = 0.0f
+                    binding.drawCont.y = ((binding.containerStartup.height / 2) - (binding.drawCont.height / 2)).toFloat()
                 }
                 return true
             }
@@ -222,12 +236,14 @@ class DrawColoringBookActivity: BaseActivity(){
         }
 
         binding.drawCont.layoutParams = layoutParams
+        limitWidth = (binding.containerStartup.width / 2)
+        limitHeight = (binding.containerStartup.height / 2)
     }
 
 
     private fun allowX(deltaX: Float) {
         val futureX = (binding.drawCont.x) - deltaX
-        val delta = 0 + (binding.drawCont.width * viewModel.scaleFactor.value!! - binding.drawCont.width) / 1.2
+        val delta = 0 + (binding.drawCont.width * mScaleFactor - binding.drawCont.width) / 1.5
         val limit = binding.root.width - binding.drawCont.width - delta
         var max = delta
         var min = limit
@@ -244,7 +260,7 @@ class DrawColoringBookActivity: BaseActivity(){
 
     private fun allowY(deltaY: Float) {
         val futureY = (binding.drawCont.y) - deltaY
-        val delta = (binding.drawCont.height * viewModel.scaleFactor.value!! - binding.drawCont.height) / 1.2
+        val delta = (binding.drawCont.height * mScaleFactor - binding.drawCont.height) / 1.5
         val limit = binding.root.height - binding.drawCont.height - delta
         var max = delta
         var min = limit
@@ -279,16 +295,17 @@ class DrawColoringBookActivity: BaseActivity(){
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle(R.string.do_you_want_to_cancel)
 
-        dialog.setPositiveButton(R.string.confirm) { dialog, _ ->
-            dialog.dismiss()
+        dialog.setPositiveButton(R.string.confirm) { _dialog, _ ->
+            _dialog.dismiss()
             finish()
         }
-        dialog.setNegativeButton(R.string.cancel) { dialog, _ ->
-            dialog.dismiss()
+        dialog.setNegativeButton(R.string.cancel) { _dialog, _ ->
+            _dialog.dismiss()
         }
         val alertDialog = dialog.create()
         alertDialog.show()
     }
+
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentByTag("colorBrush")
         when {

@@ -68,7 +68,7 @@ class ColoringView @JvmOverloads constructor(
 
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 //        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil2),
-        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil1),
+        originPencil = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.pencil3),
                 50, 50, true)
 
         pencil = originPencil

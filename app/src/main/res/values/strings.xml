@@ -1,15 +1,16 @@
 <resources>
-    <string name="app_name">EColoring Book</string>
+    <string name="app_name">Tedoori - Coloring book</string>
     <string name="make_coloring_book">Make coloring book</string>
     <string name="select_coloring_book">Draw coloring book</string>
     <string name="select_temp_coloring_book">Previous coloring books</string>
-    <string name="processing_image">Image is processing\nWait a moment.\n\nIt takes 10seconds at least</string>
+    <string name="processing_image">Image is processing\nPlease Wait a moment.\n\nIt may take 10 seconds at least</string>
     <string name="next">next</string>
-    <string name="complete_revise">complete correction</string>
+    <string name="exit">close</string>
+    <string name="complete_revise">Complete to edit</string>
     <string name="save">save</string>
     <string name="confirm">Confirm</string>
     <string name="save_to_gallery">Save to Gallery</string>
-    <string name="save_to_temp">Temporary Save</string>
+    <string name="save_to_temp">For Later</string>
     <string name="plus">Add</string>
     <string name="change">Change</string>
     <string name="eraser">Eraser</string>
@@ -17,9 +18,10 @@
     <string name="change_to_touch_mode">Change to touch mode</string>
     <string name="change_to_draw_mode">Change to drawing mode</string>
     <string name="splash_text">Empty your head\nFill your heart</string>
-    <string name="splash_text1">Do you want to make your coloring book?</string>
+    <string name="splash_text1">Make your coloring book:)</string>
     <string name="splash_text2">Coloring book images must be clearly bordered</string>
-    <string name="splash_text3">After creating a coloring book image,\nYou can revise with white and black pen.</string>
+    <string name="splash_text3">After creating a coloring book image,\nYou can edit with white and black pen.</string>
+    <string name="need_network">Tedoori need network connection. Please open after connect network</string>
     <string name="push_again_back_pressed">Pressed back button again to exit</string>
     <string name="admob_id">ca-app-pub-7552170233373075/3997308422</string>
     <string name="admob_banner_id">ca-app-pub-7552170233373075/3844640469</string>
@@ -27,12 +29,22 @@
     <string name="allow_grant">Please allow permission</string>
     <string name="do_you_want_to_remove">Do you want to remove this?</string>
     <string name="do_you_want_to_cancel">Do you want to leave?</string>
-    <string name="not_ready_yet">준비중입니다.</string>
+    <string name="not_ready_yet">Not ready Yet.</string>
     <string name="complete">complete</string>
     <string name="remove">remove</string>
     <string name="cancel">cancel</string>
     <string name="settings">setting</string>
     <string name="search">search</string>
+    <string name="change_to_eraser_mode">Change to eraser mode</string>
+    <string name="change_pencil_color">Change pencil color</string>
+    <string name="adjust_brush_size">Adjust\nbrush size</string>
+    <string name="change_mode_guide">Change to touch mode or drawing mode</string>
+    <string name="change_to_white_pencil">Change to white pen</string>
+    <string name="change_to_black_pencil">Change to black pen</string>
+    <string name="revise_guide">Edit Coloring Book Page</string>
+    <string name="coloring_guide">Drawing Coloring Book Page</string>
+    <string name="guide_text">Guide For Tedoori</string>
+    <string name="guide_text2">1. Select your photo that you want to convert to coloring book\n\n2. Edit coloring book using white and black pencil\n\n3.After edit coloring book, Fill your coloring book with your colors\n</string>
     <!--<string-array name="select_main_diet">-->
         <!--<item>수정</item>-->
         <!--<item>삭제</item>-->

@@ -27,6 +27,15 @@ abstract class ActivityBuilder{
     @ContributesAndroidInjector(modules = [PaletteFragmentModule::class])
     abstract fun bindPaletteFragmentModule(): PaletteFragment
 
+    @ContributesAndroidInjector(modules = [GuideFragmentModule::class])
+    abstract fun bindReviseGuideFragment(): ReviseGuideFragment
+
+    @ContributesAndroidInjector(modules = [GuideFragmentModule::class])
+    abstract fun bindColoringGuideFragment(): ColoringGuideFragment
+
+    @ContributesAndroidInjector(modules = [GuideFragmentModule::class])
+    abstract fun bindTedooriGuideFragment(): TedooriGuideFragment
+
     @ContributesAndroidInjector(modules = [SelectColoringBookActivityModule::class])
     abstract fun bindSelectColoringBookActivityModule(): SelectColoringBookActivity
 

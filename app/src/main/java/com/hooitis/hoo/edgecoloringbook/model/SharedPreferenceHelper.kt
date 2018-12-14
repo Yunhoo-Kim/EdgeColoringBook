@@ -9,7 +9,8 @@ import javax.inject.Named
 class SharedPreferenceHelper @Inject constructor(@Named("appContext")private val context: Context){
     enum class KEY(val key:String) {
         ACCESS_TOKEN(key = "ACCESS_TOKEN"),
-        USER_ID(key = "USER_ID")
+        USER_ID(key = "USER_ID"),
+        FIRST_OPEN(key = "FIRST_OPEN")
     }
 
     fun setString(key: KEY, value: String){

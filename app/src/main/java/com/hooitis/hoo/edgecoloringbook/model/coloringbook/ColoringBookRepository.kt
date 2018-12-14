@@ -11,7 +11,7 @@ import javax.inject.Inject
 @Suppress("unused")
 class ColoringBookRepository @Inject constructor(private val coloringBookDao: ColoringBookDao,
                                                  private val firebaseStore: FirebaseFirestore,
-                                                 private val sharedPreferenceHelper: SharedPreferenceHelper){
+                                                 val sharedPreferenceHelper: SharedPreferenceHelper){
 
 
     val mCompositeDisposable: CompositeDisposable by lazy {

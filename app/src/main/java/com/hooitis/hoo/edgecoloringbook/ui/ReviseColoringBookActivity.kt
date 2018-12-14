@@ -6,35 +6,26 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.*
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.base.BaseActivity
-import com.hooitis.hoo.edgecoloringbook.databinding.ActivityStartupBinding
 import com.hooitis.hoo.edgecoloringbook.di.ViewModelFactory
 import com.hooitis.hoo.edgecoloringbook.vm.MainVM
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
-import android.util.Log
 import android.view.GestureDetector
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivityReviseBinding
 import com.hooitis.hoo.edgecoloringbook.model.edgecoloringbook.PassColoringBook
 import com.hooitis.hoo.edgecoloringbook.utils.*
-import java.io.ByteArrayOutputStream
 
 
 class ReviseColoringBookActivity: BaseActivity(){
@@ -46,6 +37,7 @@ class ReviseColoringBookActivity: BaseActivity(){
     private lateinit var mScaleDetector: ScaleGestureDetector
     private lateinit var mGestureDetector: GestureDetector
     private var mScaleFactor = 1f
+    private var mBScaleFactor = 0.9f
     private var mPosX = 0f
     private var mPosY = 0f
     private lateinit var mBitmap: Bitmap
@@ -53,6 +45,8 @@ class ReviseColoringBookActivity: BaseActivity(){
     private var isModeFabOpen = false
     private var isLineWidthFabOpen = false
     private val backButtonSubject: Subject<Long> = BehaviorSubject.createDefault(0L)
+    private var limitWidth: Int = 0
+    private var limitHeight: Int = 0
 
     private val CAMERA = 1231
 
@@ -68,7 +62,11 @@ class ReviseColoringBookActivity: BaseActivity(){
         setContentView(binding.root)
 
         val passBitmap = viewModel.getPassColoringBook()
-        mBitmap = UiUtils.convertStringToBitmap(passBitmap.imageData)
+        try {
+            mBitmap = UiUtils.convertStringToBitmap(passBitmap.imageData)
+        }catch (e: NullPointerException){
+            finish()
+        }
 
         binding.saveDrawing.setOnClickListener {
             val resultBitmap = Bitmap.createBitmap(
@@ -136,6 +134,7 @@ class ReviseColoringBookActivity: BaseActivity(){
 
         mScaleDetector = ScaleGestureDetector(this, object: ScaleGestureDetector.SimpleOnScaleGestureListener(){
             override fun onScale(detector: ScaleGestureDetector?): Boolean {
+                mBScaleFactor = mScaleFactor
                 mScaleFactor *= detector!!.scaleFactor
                 mScaleFactor = max(MIN_SCALE, min(mScaleFactor, MAX_SCALE))
 
@@ -148,9 +147,18 @@ class ReviseColoringBookActivity: BaseActivity(){
                         viewModel.saveButtonVisibility.postValue(false)
                 }
 
-                if(mScaleFactor <= 1.0f){
+                if(mScaleFactor > MIN_SCALE && mScaleFactor < 0.9f){
                     binding.drawCont.x = 0.0f
-                    binding.drawCont.y = 0.0f
+                    binding.drawCont.y = ((binding.containerRevise.height / 2) - (binding.drawCont.height / 2)).toFloat()
+                }
+
+                if((binding.drawCont.x > (binding.containerRevise.width + limitWidth) || binding.drawCont.x < -limitWidth) && mBScaleFactor > mScaleFactor){
+                    binding.drawCont.x = 0.0f
+                    binding.drawCont.y = ((binding.containerRevise.height / 2) - (binding.drawCont.height / 2)).toFloat()
+                }
+                if((binding.drawCont.y > (binding.containerRevise.height + limitHeight) || binding.drawCont.y < -limitHeight) && mBScaleFactor > mScaleFactor){
+                    binding.drawCont.x = 0.0f
+                    binding.drawCont.y = ((binding.containerRevise.height / 2) - (binding.drawCont.height / 2)).toFloat()
                 }
                 return true
             }
@@ -201,6 +209,8 @@ class ReviseColoringBookActivity: BaseActivity(){
 
         binding.drawCont.layoutParams = layoutParams
         viewModel.scaleFactor.postValue(0.8f)
+        limitWidth = (binding.containerRevise.width / 2)
+        limitHeight = (binding.containerRevise.height / 2)
     }
 
 

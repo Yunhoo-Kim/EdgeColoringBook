@@ -40,6 +40,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/white"
+            android:clipToPadding="false"
+            android:clipChildren="false"
             scaleFactor="@{viewModel.scaleFactor}">
 
             <com.hooitis.hoo.edgecoloringbook.ui.paint.ReviseDrawingView

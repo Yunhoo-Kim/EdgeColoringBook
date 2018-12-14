@@ -13,6 +13,7 @@ import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.base.BaseActivity
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivityMainBinding
 import com.hooitis.hoo.edgecoloringbook.di.ViewModelFactory
+import com.hooitis.hoo.edgecoloringbook.utils.UiUtils
 import com.hooitis.hoo.edgecoloringbook.vm.MainVM
 import javax.inject.Inject
 
@@ -43,20 +44,7 @@ class MainActivity: BaseActivity(){
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
         setContentView(binding.root)
-
-//        MobileAds.initialize(this, getString(R.string.admob))
-//        mInterstitialAd = InterstitialAd(this).apply {
-//            adUnitId = getString(R.string.admob_id)
-//            loadAd(AdRequest.Builder().build())
-//            adListener = object : AdListener(){
-//                override fun onAdClosed() {
-//                    super.onAdClosed()
-//                    finish()
-//                }
-//            }
-//        }
-
-
+        UiUtils.replaceNewFragment(this, TedooriGuideFragment.newInstance(Bundle()), R.id.container_main)
     }
 
 }

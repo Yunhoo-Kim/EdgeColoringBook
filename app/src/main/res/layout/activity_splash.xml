@@ -17,7 +17,7 @@
             android:id="@+id/splash_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/main_background3"
+            android:src="@drawable/gradient_background"
             android:scaleType="centerCrop" />
 
         <TextView

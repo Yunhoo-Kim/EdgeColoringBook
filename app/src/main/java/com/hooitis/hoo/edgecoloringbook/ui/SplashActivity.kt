@@ -2,12 +2,15 @@ package com.hooitis.hoo.edgecoloringbook.ui
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.base.BaseActivity
 import com.hooitis.hoo.edgecoloringbook.databinding.ActivitySplashBinding
@@ -55,8 +58,23 @@ class SplashActivity: BaseActivity(){
         setContentView(binding.root)
 
         binding.splashText.setText(splashTextList.random())
-        binding.splashImage.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY)
+//        binding.splashImage.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY)
 
+        val cm: ConnectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = cm.activeNetworkInfo
+
+        if(!(networkInfo != null && networkInfo.isConnectedOrConnecting)){
+            val dialog = AlertDialog.Builder(this).apply {
+                setMessage(R.string.need_network)
+                        .setPositiveButton(R.string.confirm) { _, _ ->
+                            finish()
+                        }
+            }
+
+            dialog.create()
+            dialog.show()
+            return
+        }
         viewModel.checkVersion()
                 .subscribe({serverVersion ->
                     val localVersion = viewModel.versionsRepository.loadLocalVersions()

@@ -21,7 +21,6 @@ import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.hooitis.hoo.edgecoloringbook.R
 import com.hooitis.hoo.edgecoloringbook.base.BaseActivity
-import com.hooitis.hoo.edgecoloringbook.databinding.ActivityStartupBinding
 import com.hooitis.hoo.edgecoloringbook.di.ViewModelFactory
 import com.hooitis.hoo.edgecoloringbook.vm.MainVM
 import javax.inject.Inject
